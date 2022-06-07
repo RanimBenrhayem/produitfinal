@@ -1,0 +1,210 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:500);
+
+* {/*all*/
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+
+.container1{
+background-image: url('backg12.png'); 
+background-size: 900px 600px;
+background-repeat: no-repeat;
+background-position-y: 0.5cm;
+
+
+    
+}
+.logo {
+  height: 4cm;
+  width: 8cm;
+  margin-left: 24.35cm;
+  margin-top: -0.25cm;
+  
+}
+.containersignup{
+  
+    background-color: rgb(255, 255, 255);
+    transform: translate(89%,-14%);
+    margin-top: 0cm;
+
+
+      
+}
+.chart{
+  height: 1cm;
+  width: 12cm;
+}
+
+.buttonrolsignup{
+  transform: translate(2%,15%);
+ 
+}
+
+
+.typography1{
+color: rgb(22, 81, 121);
+text-align: center;
+}
+
+Button{
+    transform: translate(25%);
+}
+
+
+    
+    .btn-text {
+      float: right;
+      margin: 11px 43px 0 0;
+      color: white;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      font-family: "Roboto";
+      background-color: transparent;
+      border: none;
+    }
+
+
+    .buttonsignup1{
+        width: 185px;
+        height: 42px;
+        border-radius: 2px;
+        border: none;
+        background-color: white;
+        color: #1669F2;
+        font-weight: bold;
+        text-decoration: underline;
+       box-shadow: #1669F2;
+        transform: translate(350%,1050%);
+        margin-left: 9cm;
+        font-size: medium;
+      
+        
+       
+    }
+
+    .containersignin{
+        background-color: rgb(255, 255, 255);
+        transform: translate(89%,-10%);
+    }
+   
+  .buttonsignin{
+      transform: translateY(-80%);
+      
+  }
+
+  .btngoogle{
+    transform: translate(-58%, 30%);
+    width: 5cm;
+
+  }
+.typography2{
+  color: grey;
+}
+/*@import url(https://fonts.googleapis.com/css?family=Roboto:500);
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    word-wrap: break-word;
+  }
+
+.container1{
+background-image: url('backg12.png'); 
+background-size: 900px 600px;
+background-repeat: no-repeat;}
+
+
+.logo {
+  height: 4cm;
+  width: 8cm;
+  margin-left: 24cm;
+  margin-top: -0.25cm;
+  
+}
+.containersignup{
+  
+    background-color: rgb(255, 255, 255);
+    transform: translate(89%,-14%);
+    margin-top: 0cm;
+
+
+      
+}
+.containerreset{
+  
+  background-color: rgb(255, 255, 255);
+  transform: translate(89%,-14%);
+  margin-top: 0cm;
+  
+
+    
+}
+
+.buttonrolsignup{
+  transform: translate(2%,15%);
+ 
+}
+
+
+.typography1{
+color: rgb(22, 81, 121);
+text-align: center;
+}
+
+Button{
+    transform: translate(25%);
+}
+
+
+    
+    .btn-text {
+      float: right;
+      margin: 11px 43px 0 0;
+      color: white;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      font-family: "Roboto";
+      background-color: transparent;
+      border: none;
+    }
+
+
+    .buttonsignup1{
+        width: 185px;
+        height: 42px;
+        border-radius: 2px;
+        border: none;
+        background-color: white;
+        color: #1669F2;
+        font-weight: bold;
+        text-decoration: underline;
+       box-shadow: #1669F2;
+        transform: translate(350%,1050%);
+        margin-left: 9cm;
+        font-size: medium;
+      
+        
+       
+    }
+
+    .containersignin{
+        background-color: rgb(255, 255, 255);
+        transform: translate(89%,0%);
+    }
+   
+  .buttonsignin{
+      transform: translateY(-80%);
+      
+  }
+
+  .btngoogle{
+    transform: translate(-58%, 27%);
+    width: 5cm;
+
+  }
+.typography2{
+  color: grey;
+}*/

@@ -1,0 +1,4 @@
+/*sweetalert2 pops up just behind the modal dialog*/
+.myswal {
+    z-index: 300000;
+  }

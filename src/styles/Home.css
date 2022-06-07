@@ -1,0 +1,30 @@
+
+.upload{
+    margin-top: 1.5cm;
+    height: 70%;
+    font-size: normal;
+    
+    
+}
+.icons_main{
+    font-size: 25px;
+    color: rgb(6, 6, 114);
+}
+.icons{
+    font-size: 25px;
+    color: rgb(92, 88, 88);
+    
+}
+.iconsList{
+    font-size: 25px;
+    color: rgb(92, 88, 88);
+    transform: translate(50%);
+}
+.logoBranper{
+    height: 5cm;
+    width: 6.5cm;
+    transform: translate(185%,10%); 
+}
+.description{
+    transform: translateY(-80%);
+}
