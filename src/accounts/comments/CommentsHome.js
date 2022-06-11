@@ -825,7 +825,7 @@ const CommentsHome = () => {
                     style={{ fontSize: 20, marginTop: -35 }}
                     onClick={handleClickOpenDayDial}
                   >
-                    Last Day Comments
+                    Today's Comments
                   </MenuItem>
                   <br />
                   <br />

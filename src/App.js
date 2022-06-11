@@ -19,6 +19,7 @@ import AddAdmin from "./accounts/clientsmanagement/AddAdmin";
 import ResetPassword from "./accounts/password/ResetPassword";
 import NewPassword from "./accounts/password/NewPassword";
 import ChangePassword from "./accounts/profil/ChangePassword";
+import DeleteAccount from "./accounts/profil/DeleteAccount";
 import DashbaordsList from "./accounts/dashboard/DashboardsList"
 import {useAuthContext} from "./contexts/authContext";
 import SavedChart from "./accounts/dashboard/SavedChart";
@@ -38,17 +39,22 @@ function App() {
           {token.length>0 && (
               <>
           <Route exact path="/CsvUploader" element={<CsvUploader />}></Route>
-          <Route
-            exact
-            path="/ChangePassword"
-            element={<ChangePassword />}
-          ></Route>
+         
 
           <Route
             exact
             path="/UploadedSimpleFilesList"
             element={<UserSimpleFiles />}
           ></Route>
+
+<Route
+            exact
+            path="/DeleteAccount"
+            element={<DeleteAccount />}
+          ></Route>
+
+
+
           <Route
             exact
             path="/JoinedFilesList"
@@ -73,6 +79,12 @@ function App() {
                   <Route exact path="/DashboardsList" element={<DashbaordsList/>}></Route>
                   <Route exact path="/WarningJoined" element={<WarningJoined />}></Route>
 
+         
+            </>
+            )}
+  
+            <Route exact path="/" element={<Container />}></Route>
+         
           <Route
             exact
             path="/ResetPassword"
@@ -83,14 +95,14 @@ function App() {
             path="/ResetPassword/:token"
             element={<NewPassword />}
             ></Route>
-            </>
-            )}
+             <Route
+            exact
+            path="/ChangePassword"
+            element={<ChangePassword />}
+          ></Route>
   
-            <Route exact path="/" element={<Container />}></Route>
-          </Routes>
   
-  
-  
+  </Routes>
   
         </Router>
       </div>

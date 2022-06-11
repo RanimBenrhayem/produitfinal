@@ -10,13 +10,15 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import {FcLineChart,FcBarChart} from "react-icons/fc"
+import { FcLineChart, FcBarChart } from "react-icons/fc";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import AddCommentIcon from "@mui/icons-material/AddComment";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import AddModeratorIcon from "@mui/icons-material/AddModerator";
 import { BsPersonLinesFill } from "react-icons/bs";
 import { VscFile, VscFiles, VscTasklist, VscChecklist } from "react-icons/vsc";
+import { TiDeleteOutline } from "react-icons/ti";
+import {RiAlarmWarningLine,RiAlarmWarningFill} from "react-icons/ri"
 import { FcComboChart } from "react-icons/fc";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LockResetIcon from "@mui/icons-material/LockReset";
@@ -55,7 +57,7 @@ export default function Menu2() {
   };
 
   const handleClick8 = () => {
-    setOpen7(!open8);
+    setOpen8(!open8);
   };
 
   return (
@@ -339,7 +341,7 @@ export default function Menu2() {
                 <Tooltip
                   title={
                     <Typography style={{ fontSize: 12 }}>
-                     Dashboard list for simple files
+                      Dashboard list for simple files
                     </Typography>
                   }
                 >
@@ -360,7 +362,7 @@ export default function Menu2() {
                         }}
                       />
                       <Typography style={{ color: "black", marginLeft: 40 }}>
-                      Dashboard list  <br />
+                        Dashboard list <br />
                         for simple files
                       </Typography>
                     </ListItemIcon>
@@ -390,7 +392,7 @@ export default function Menu2() {
                         }}
                       />
                       <Typography style={{ color: "black", marginLeft: 40 }}>
-                      Dashboard list for <br />
+                        Dashboard list for <br />
                         Joined files
                       </Typography>
                     </ListItemIcon>
@@ -400,82 +402,89 @@ export default function Menu2() {
             </Collapse>
           </List>
         </Collapse>
-       
+
         <Tooltip
           title={<Typography style={{ fontSize: 15 }}>Warnings</Typography>}
         >
-          <ListItem button  >
+          <ListItem
+            button
+            sx={{ pl: 6 }}
+            style={{ marginLeft: -1 }}
+            onClick={handleClick8}
+          >
             <ListItemIcon>
               <Warning style={{ color: "red", fontSize: 27 }} />
             </ListItemIcon>
-            <Typography> Warnings</Typography>
+            <Typography style={{ marginLeft: 5 }}> Warnings</Typography>
             {open8 ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
         </Tooltip>
         <Collapse in={open8} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-              <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Warning Simple Files
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 10 }}
-                    component={Link}
-                    to={"/DashboardsList"}
-                  >
-                    <ListItemIcon>
-                      <ShowChartIcon
-                        style={{
-                          marginLeft: -3,
-                          //marginTop: 10,
-                          fontSize: 23,
-                          color: "#8A2BE2",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                       Warning simple files
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Warning join files
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 10 }}
-                    component={Link}
-                    to={"/DashboardsList"}
-                  >
-                    <ListItemIcon>
-                      <ShowChartIcon
-                        style={{
-                          marginLeft: -3,
-                          //marginTop: 10,
-                          fontSize: 23,
-                          color: "#8A2BE2",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Warning join files
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-        </List>
+          <List component="div" disablePadding>
+            <Tooltip
+              title={
+                <Typography style={{ fontSize: 12 }}>
+                  Warning Simple Files
+                </Typography>
+              }
+            >
+              <ListItem
+                button
+                sx={{ pl: 6 }}
+                style={{ marginLeft: 10 }}
+                component={Link}
+                to={"/Warning"}
+              >
+                <ListItemIcon>
+                  <RiAlarmWarningLine
+                    style={{
+                      marginLeft: 10,
+                      //marginTop: 10,
+                      fontSize: 23,
+                      color: "#8B0000",
+                    }}
+                  />
+                  <Typography style={{ color: "black", marginLeft: 32 }}>
+                    Warning simple files
+                  </Typography>
+                </ListItemIcon>
+              </ListItem>
+            </Tooltip>
+            <Tooltip
+              title={
+                <Typography style={{ fontSize: 12 }}>
+                  Warning join files
+                </Typography>
+              }
+            >
+              <ListItem
+                button
+                sx={{ pl: 6 }}
+                style={{ marginLeft: 10 }}
+                component={Link}
+                to={"/WarningJoined"}
+              >
+                <ListItemIcon>
+                  <RiAlarmWarningFill
+                    style={{
+                      marginLeft: 10,
+                      //marginTop: 10,
+                      fontSize: 23,
+                      color: "#B22222",
+                    }}
+                  />
+                  <Typography style={{ color: "black", marginLeft: 32 }}>
+                    Warning join files
+                  </Typography>
+                </ListItemIcon>
+              </ListItem>
+            </Tooltip>
+          </List>
         </Collapse>
         <Tooltip
-          title={<Typography style={{ fontSize: 15 }}> Manage Users</Typography>}
+          title={
+            <Typography style={{ fontSize: 15 }}> Manage Users</Typography>
+          }
         >
           <ListItem button onClick={handleClick2}>
             <ListItemIcon>
@@ -640,6 +649,28 @@ export default function Menu2() {
                     style={{ color: "black", marginLeft: 30 }}
                   >
                     Change Password
+                  </Typography>
+                </ListItemIcon>
+              </ListItem>
+            </Tooltip>
+            <Tooltip
+              title={
+                <Typography style={{ fontSize: 15 }}>Delete account</Typography>
+              }
+            >
+              <ListItem button component={Link} to={"/DeleteAccount"}>
+                <ListItemIcon>
+                  <TiDeleteOutline
+                    style={{ fontSize: 33, marginLeft: 10, color: "#FF0000" }}
+                  />
+                  {/*<AccountCircleOutlinedIcon
+                    style={{ color: "#009688", fontSize: 27, marginLeft: 13 }}
+                  />*/}
+                  <Typography
+                    title="Change Your Password"
+                    style={{ color: "black", marginLeft: 30 }}
+                  >
+                    Delete account
                   </Typography>
                 </ListItemIcon>
               </ListItem>

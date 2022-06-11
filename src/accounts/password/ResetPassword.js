@@ -6,12 +6,13 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 import "./reset.css";
 
 import { useNavigate } from "react-router-dom";
 
-//import SignUp from "../signup/SignUp";
+import Signin from "../signin/SignIn";
 function ResetPassword() {
   const [email, setEmail] = useState("");
 
@@ -139,7 +140,11 @@ function ResetPassword() {
                   type="reset"
                   variant="outlined"
                   fullWidth
-                  sx={{ mt: 2, mb: 2, width: 170, marginLeft: 22 }}
+                  component={Link}
+                 
+                 
+                  to={"/"}
+                  sx={{ mt: 2, mb: 2, width: 170, marginLeft: 25 }}
                 >
                   Cancel
                 </Button>

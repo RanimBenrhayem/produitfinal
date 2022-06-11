@@ -7,11 +7,11 @@ if(token.length>0) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}` ;
 }
 
-export const getUserSimpleFiles= async () =>{
+export const getUserSimpleFiles= async (id) =>{
     try {
         const response =   await axios({
             method: "get",
-            url :"/uploads/files/getall/62710b99b4a11503f7f3793d",
+            url :`/uploads/files/getall/${id}`,
         })
         return ({success : true,
             data : response.data,
