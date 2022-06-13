@@ -59,7 +59,7 @@ function Google() {
         <Link to="/signup" />
       ) : ( */
     <GoogleLogin
-      clientId="1072432309097-3npmrqi8dk2fm3eho7q54h9tn3ulfnku.apps.googleusercontent.com"
+      clientId="678764918390-8qs192e1q8hns30bhqpem0cmvadefvhi.apps.googleusercontent.com"
       buttonText="Login with Google"
       onSuccess={responseSuccessGoogle}
       onFailure={responseErrorGoogle}

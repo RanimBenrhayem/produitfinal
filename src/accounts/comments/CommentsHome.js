@@ -926,7 +926,7 @@ const CommentsHome = () => {
                             variant="h5"
                             component="div"
                           >
-                            Last Day Comments List
+                            Today's Comments List
                           </Typography>
                         </Tooltip>
                         <IconButton
