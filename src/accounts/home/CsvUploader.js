@@ -2,7 +2,7 @@ import React from "react";
 import FileUploader from "../uploadfiles/UploadFiles";
 import { FcComboChart } from "react-icons/fc";
 import "../../styles/Home.css";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,7 +28,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { VscFile, VscFiles, VscTasklist, VscChecklist } from "react-icons/vsc";
+import { VscFile } from "react-icons/vsc";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -50,7 +50,6 @@ const StyledMenu = styled((props) => (
   "& .MuiPaper-root": {
     borderRadius: 2,
     marginTop: theme.spacing(1),
-    //marginLeft: theme.spacing(39.5),
     minWidth: 200,
     backgroundColor: "#026aa4",
     color: theme.palette.mode === "light" ? "white" : theme.palette.grey[300],
@@ -182,14 +181,7 @@ export default function DashboardHome() {
               marginBottom: -7,
               color: "#026aa4",
             }}
-
-            //className={classes.iconarrow}
           />
-          {/*<ArrowRightIcon
-            style={{ fontSize: 30, marginLeft: 140 }}
-
-            //className={classes.iconarrow}
-          />*/}
           <div style={{ marginLeft: 170, marginTop: -32 }}>
             <UploadFileIcon
               style={{
@@ -271,7 +263,7 @@ export default function DashboardHome() {
                 style={{ marginTop: -70, fontSize: 30, color: "#026aa4" }}
               />
               <ListItemText
-                primary={
+                primary={ //gras
                   <Typography variant="h6" component="div">
                     First Step
                   </Typography>
@@ -288,7 +280,7 @@ export default function DashboardHome() {
                 style={{ marginLeft: 20 }}
               />
             </ListItem>
-            <Divider />
+            <Divider /> {/*hr*/}
             <ListItem>
               <LooksTwoIcon
                 style={{ marginTop: -20, fontSize: 30, color: "#026aa4" }}
@@ -357,7 +349,7 @@ export default function DashboardHome() {
               start!&nbsp;&nbsp;&nbsp; <br />
               <br />
               <Button variant="outlined" style={{ backgroundColor: "white" }}>
-                <CSVLink {...csvLink}>Download Sample Data</CSVLink>
+                <CSVLink {...csvLink}>Download Sample Data</CSVLink>  {/*desctruction csv link*/}
               </Button>
               <br />
             </Typography>

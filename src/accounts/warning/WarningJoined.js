@@ -179,7 +179,7 @@ export default function WarningJoined() {
                             component={Link}
                             to="/Warning"
                         />
-                        <Tab label="Settings" {...a11yProps(1)} />
+           
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
@@ -191,17 +191,20 @@ export default function WarningJoined() {
                         style={{ borderColor: "#e53935" }}
                     >
                         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-                            <TableHead
-                                style={{ backgroundColor: "#e53935", borderColor: "#e53935" }}
-                            >
-                                <TableRow>
-                                    <TableCell
-                                        style={{ fontWeight: "bold", color: "white", fontSize: 17 }}
-                                    >
-                                        Alerts Details
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
+                        <TableHead
+                style={{ backgroundColor: "#e53935", borderColor: "#e53935" }}
+              >
+                <TableRow>
+                  <TableCell
+                    style={{ fontWeight: "bold", color: "white", fontSize: 15}}
+                  >
+                   <br/> 
+                   <br/> 
+                   <br/> 
+                    Alerts Details
+                  </TableCell>
+                </TableRow>
+              </TableHead>
                             <TableBody>
                                 <TableBody>
                                     <FcSearch
@@ -305,127 +308,13 @@ export default function WarningJoined() {
                                     </TableContainer>
                                 </TableBody>
                                 <br />
-                                <div style={{ display: "flex", justifyContent: "center" }}>
-                                    <Pagination
-                                        count={paginator(usersCollection, page, 2).total_pages}
-                                        page={paginator(usersCollection, page, 2).page}
-                                        onChange={handleChange}
-                                        color="info"
-                                    />
-                                </div>
+                               
                             </TableBody>
                             <br />
                         </Table>
                     </TableContainer>
                 </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <Paper
-                        style={{
-                            backgroundColor: "#eceff1",
-                            width: 1150,
-                            height: 480,
-                            marginLeft: 25,
-                        }}
-                    >
-                        <br />
-
-                        <Typography
-                            style={{
-                                color: "#026aa4",
-                                fontSize: 22,
-                                fontWeight: "bold",
-                                marginLeft: 400,
-                            }}
-                        >
-                            <GoSettings /> &nbsp;&nbsp; Warnings Control Panel
-                        </Typography>
-                        <br />
-                        <Stack direction="row">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <Typography style={{ marginTop: 7 }}>
-                                Activate or desactivate :
-                            </Typography>
-                            &nbsp;&nbsp;&nbsp;
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        color="primary"
-                                        checked={checked}
-                                        onChange={handleChange2}
-                                        inputProps={{ "aria-label": "secondary checkbox" }}
-                                    />
-                                }
-                                label="On"
-                            />
-                        </Stack>
-                        <Stack style={{ marginLeft: 140 }}>
-                            <Typography style={{ marginLeft: 150 }}>
-                                Warning Program :
-                            </Typography>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        color="primary"
-                                        checked={checkedBox}
-                                        onChange={handleChangeBox}
-                                        disabled={!checked}
-                                    />
-                                }
-                                label="&nbsp;&nbsp;SMS"
-                                labelPlacement="end"
-                                style={{ marginLeft: 280 }}
-                            />
-                            <br />
-                            <TextField
-                                id="outlined-basic"
-                                label="Phone Number "
-                                size="small"
-                                style={{ width: 250, marginLeft: 330, marginTop: -13 }}
-                                variant="outlined"
-                                disabled={!checkedBox}
-                                //value={text}
-                                //onChange={(e) => setText(e.target.value)}
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        color="primary"
-                                        checked={checkedBox2}
-                                        onChange={handleChangeBox2}
-                                        disabled={!checked}
-                                    />
-                                }
-                                label="&nbsp;&nbsp;Email"
-                                labelPlacement="end"
-                                style={{ marginLeft: 280, marginTop: 13 }}
-                            />
-                            <TextField
-                                id="outlined-basic"
-                                label="Email Adress "
-                                size="small"
-                                variant="outlined"
-                                disabled={!checkedBox2}
-                                //value={text2}
-                                //onChange={(e) => setText2(e.target.value)}
-
-                                style={{ marginLeft: 330, marginTop: 13, width: 250 }}
-                            />
-                        </Stack>
-                        <br />
-                        <Typography>
-                            &nbsp;&nbsp;&nbsp;Reminder : Alerts are only sent if your data
-                            changes.
-                        </Typography>
-                        <br />
-                        <hr style={{ width: 1080, marginLeft: 30 }} />
-                        <br />
-
-                        <Typography style={{ color: "gray" }}>
-                            &nbsp;&nbsp;&nbsp; By default, you'll receivce notifications on
-                            the application in the notification center.
-                        </Typography>
-                    </Paper>
-                </TabPanel>
+              
             </Box>
         </div>
     );

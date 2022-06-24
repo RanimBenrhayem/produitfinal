@@ -3,8 +3,7 @@ import LayoutHome from "../layout/LayoutHome";
 import { FcComboChart } from "react-icons/fc";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { Typography } from "@material-ui/core";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { VscFile, VscFiles, VscTasklist, VscChecklist } from "react-icons/vsc";
+import { VscTasklist } from "react-icons/vsc";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
 import { UserSimpleFiles } from "./SimpleFilesToUpload";
@@ -24,7 +23,6 @@ export default function UploadedSimpleFiles() {
           <ArrowRightIcon
             style={{
               fontSize: 30,
-              fontSize: 30,
               marginBottom: -6.25,
               color: "#026aa4",
             }}
@@ -32,7 +30,6 @@ export default function UploadedSimpleFiles() {
           &nbsp;
           <ArrowRightIcon
             style={{
-              fontSize: 30,
               fontSize: 30,
               marginBottom: -7.5,
               marginLeft: 195,

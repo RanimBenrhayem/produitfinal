@@ -11,7 +11,9 @@ import {
   import {FaPaintBrush}from "react-icons/fa"
 export default function JoinedDashboardList() {
     const [dashboardList , setDashboardList] = useState([])
+    const [deleted,setDeleted] = useState(false)
     let navigate = useNavigate()
+
     useEffect(()=> {
         async  function getAll() {
             try{
@@ -29,8 +31,19 @@ export default function JoinedDashboardList() {
 
         }
         getAll()
-    }, [])
-
+    }, [deleted])
+    const handleDelete= async (id)=>{
+        try{
+            const response = await axios({
+                method:"delete",
+                url:`http://localhost:8080/chart/delete/${id}`
+            })
+            console.log(response.data)
+            setDeleted(!deleted)
+        }catch (e) {
+            console.log(e)
+        }
+    }
     return (
         <div>
             <LayoutHome />
@@ -68,13 +81,14 @@ export default function JoinedDashboardList() {
                 {dashboardList.length >0 && (
                     dashboardList.map((element)=> {
                         const {_id,attribut1,attribut2,fileId,typeOfDashboard} = element
+                        console.log(element.file)
                         return <tr key={_id}>
                             <td>{element.file[0].metadata.originalFileName}</td>
                             <td>{attribut1}</td>
                             <td>{attribut2} </td>
                             <td> {typeOfDashboard}</td>
                             <td> <button className="paint"  onClick={()=>navigate(`/savedJoinedDashboard/${_id}`)}><FaPaintBrush/></button></td>
-                            <td className="buttonpoubelle">   <AiFillCloseCircle /></td>
+                            <td className="buttonpoubelle" onClick={()=>handleDelete(_id)}>   <AiFillCloseCircle /></td>
                         </tr>
                     })
                 )}

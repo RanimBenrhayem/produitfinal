@@ -30,24 +30,13 @@ function Google() {
 
         Toast.fire({
           icon: "success",
-          title: "You Have Logged In Successfully With Google !",
+          title: "You Have Logged un Successfully With Google !",
         });
       });
     } catch (error) {
       console.log(error);
     }
   }
-
-  /*const responseSuccessGoogle = (response) => {
-    console.log(response);
-    axios({
-      method: "POST",
-      url: "/googlesignin",
-      data: { tokenId: response.tokenId },
-    }).then((response) => {
-      console.log("Google login with success", response);
-    });
-  }; */
 
   const responseErrorGoogle = (response) => {
     "error";
@@ -59,8 +48,8 @@ function Google() {
         <Link to="/signup" />
       ) : ( */
     <GoogleLogin
-      clientId="678764918390-8qs192e1q8hns30bhqpem0cmvadefvhi.apps.googleusercontent.com"
-      buttonText="Login with Google"
+      clientId="1080158334920-r61g9qlgbdent0sahg9uq9umjgfh18di.apps.googleusercontent.com"
+      buttonText="Sign up with Google"
       onSuccess={responseSuccessGoogle}
       onFailure={responseErrorGoogle}
       cookiePolicy={"single_host_origin"}

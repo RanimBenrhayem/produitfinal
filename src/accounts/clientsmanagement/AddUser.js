@@ -28,6 +28,7 @@ export default function AddUser() {
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,6 +51,7 @@ export default function AddUser() {
           phoneNumber: phoneNumber,
           email: email,
           password: password,
+         
         },
       });
       const Toast = Swal.mixin({
@@ -69,6 +71,8 @@ export default function AddUser() {
       setPassword("");
       setPhoneNumber("");
       setEmail("");
+     
+
     } catch (error) {
       console.log(error);
       const Toast = Swal.mixin({
@@ -209,6 +213,10 @@ export default function AddUser() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </Grid>
+              <Grid item xs={12}>
+          
+                
               </Grid>
 
               <Grid item sm={5}>

@@ -68,7 +68,7 @@ function App() {
           <Route exact path="/Users" element={<UsersList />}></Route>
 
           <Route exact path="/Comments" element={<CommentsHome />}></Route>
-          <Route exact path="/SignIn" element={<SignIn />}></Route>
+        
           <Route exact path="/AddUser" element={<AddUser />}></Route>
           <Route exact path="/AddAdmin" element={<AddAdmin />}></Route>
           <Route exact path="/YourProfil" element={<Profil />}></Route>
@@ -78,6 +78,7 @@ function App() {
                   <Route exact path="/joinedDashboard" element={<JoinedDashboard/>}></Route>
                   <Route exact path="/DashboardsList" element={<DashbaordsList/>}></Route>
                   <Route exact path="/WarningJoined" element={<WarningJoined />}></Route>
+
 
          
             </>

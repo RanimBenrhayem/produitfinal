@@ -7,12 +7,10 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-
 import "./reset.css";
-
 import { useNavigate } from "react-router-dom";
 
-import Signin from "../signin/SignIn";
+
 function ResetPassword() {
   const [email, setEmail] = useState("");
 
@@ -21,7 +19,7 @@ function ResetPassword() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    fetch("http://localhost:8080/password/passwordreset", {
+    fetch("http://localhost:8080/password/passwordreset", { //fetch : par defaut dans react 
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -30,11 +28,10 @@ function ResetPassword() {
         email,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => res.json()) //res from back : string et puis transfrome json 
       .then((data) => {
-        navigate("/");
+    
         if (data.error) {
-          // M.toast({ html: data.error, classes: "#c62828 red darken-3" });
           const Toast = Swal.mixin({
             toast: true,
             position: "bottom-right",
@@ -47,7 +44,9 @@ function ResetPassword() {
             icon: "error",
             title: `${data.error}`,
           });
-        } else {
+       
+       } 
+        else {
           const Toast = Swal.mixin({
             toast: true,
             position: "bottom-right",
@@ -61,7 +60,7 @@ function ResetPassword() {
             title: `${data.message}`,
           });
 
-          //M.toast({ html: data.message, classes: "#43a047 green darken-1" });
+       
           navigate("/");
         }
       })
@@ -79,13 +78,7 @@ function ResetPassword() {
           style={{ width: 650, height: 500, marginTop: 60, marginLeft: -1100 }}
         />
       </div>
-      {/*<div>
-        <img
-          src="backg12.png "
-          alt=""
-          style={{ width: 900, height: 600, marginTop: 3, marginLeft: -1135 }}
-        />
-  </div>*/}
+    
       <Container maxWidth="xs">
         <div style={{ marginTop: -550, marginLeft: -1135 }}>
           <img src="Logo.png " className="logo" alt="" />
@@ -93,7 +86,7 @@ function ResetPassword() {
         <div style={{ marginTop: 80, marginLeft: -600 }}>
           <Box
             sx={{
-              //marginTop: -100,
+              
 
               display: "flex",
               flexDirection: "column",
@@ -115,7 +108,7 @@ function ResetPassword() {
                 <TextField
                   name="email"
                   required
-                  //fullWidth
+                
                   style={{ width: 400, marginLeft: 320 }}
                   id="email"
                   label="Email"

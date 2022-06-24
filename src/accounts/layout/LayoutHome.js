@@ -2,8 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import { Drawer, Box, Tooltip } from "@material-ui/core";
-
+import { Drawer } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Home from "./ToolBarIcons";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -21,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
   fullList: {
     width: "auto",
   },
-  // toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     paddingLeft: 80,

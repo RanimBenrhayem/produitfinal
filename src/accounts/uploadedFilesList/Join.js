@@ -1,35 +1,24 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useState, useRef } from "react";
+import { useState} from "react";
 import React from "react";
-import SingleFilePreview from "./SingleFilePreview";
-import JoinedFilePreview from "./JoinedFilePreview";
 import { CSVLink } from "react-csv";
 import { FcComboChart } from "react-icons/fc";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 import { VscFiles } from "react-icons/vsc";
 import { Button, Typography } from "@material-ui/core";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
-import { AiOutlineCloudDownload, AiFillCaretUp } from "react-icons/ai";
+import { AiOutlineCloudDownload } from "react-icons/ai";
 import InfoIcon from "@mui/icons-material/Info";
-
-
-import {
-
- Tooltip
-  
-} from "@mui/material";
+import {Tooltip} from "@mui/material";
 
 import {
-  getUserSimpleFiles,
-  deleteSignleFiles,
+
   downloadFiles,
   joinProcess,
-  uploadJoinFiles,
+  getUserSimpleFiles,
   getUserJoinedFiles,
 } from "../../services/axios";
 
@@ -37,11 +26,10 @@ export const Join = () => {
   //const componentRef = useRef()
   //useState
   const [files, setFiles] = useState([]);
-  const [isDeleted, setIsDeleted] = useState(false);
   const [array, setArray] = useState([]);
   const [showFile, setShowFile] = useState("");
   const [show, setShow] = useState(false);
-  const fileReader = new FileReader();
+
   const [attribut1, setAttribut1] = useState("");
   const [attribut2, setAttribut2] = useState("");
   const [headers1, setHeaders1] = useState("");
@@ -52,30 +40,35 @@ export const Join = () => {
   const [joinedFiles, setJoinedFiles] = useState("");
   const [isDeletedJoinFiles, setIsDeletedJoinFiles] = useState(false);
   const [joinedTab, setJoinedTab] = useState(true);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const[button,setButton] = useState(false)
 
-  const lastItemRef = useRef(null);
+//useEffect pour simple files
+useEffect(() => {
+  async function fecthUserSimpleFiles() {
+    const response = await getUserSimpleFiles(); //getuserSimpleFiles est definie dans axios.js
+    if (response.success === true) {
+      setFiles(response.data);
+      console.log(response.data);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: response.data,
+        showCancelButton: false,
 
-  //useEffect pour simple files
-  useEffect(() => {
-    async function fecthUserSimpleFiles() {
-      const response = await getUserSimpleFiles(); //getuserSimpleFiles est definie dans axios.js
-      if (response.success === true) {
-        setFiles(response.data);
-        console.log(response.data);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: response.data,
-          showCancelButton: false,
-
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
+  }
 
-    fecthUserSimpleFiles();
-  }, [isDeleted]);
+  fecthUserSimpleFiles();
+}, [isDeleted]);
+
+
+
+
+
 
   //useEffect pour joined files
   useEffect(() => {
@@ -98,75 +91,13 @@ export const Join = () => {
     fetchUserJoinedFiles();
   }, [isDeletedJoinFiles]);
 
-  const handleShow = async (fileName) => {
-    if (fileName.length > 0) {
-      setShowFile("");
-      setArray([]);
-      const response = await axios({
-        method: "get",
-        url: `http://localhost:8080/uploads/${fileName}`,
-      });
-      setShowFile(response.data);
+ 
 
-      csvFileToArray(response.data);
-      fileReader.readAsText(response.data);
-      // csvFileToArray(response.data.csvHeader)
-    } else {
-      setShowFile("");
-      setArray([]);
-    }
-  };
-
-  const handleShow2 = async (id) => {
-    if (id.length > 0) {
-      setShowFile("");
-      setArray([]);
-      const response = await axios({
-        method: "get",
-        url: `http://localhost:8080/uploads/files/joined/getbyid/${id}`,
-      });
-      console.log(response);
-      setShowFile(response.data);
-
-      csvFileToArray(response.data);
-      fileReader.readAsText(response.data);
-      // csvFileToArray(response.data.csvHeader)
-    } else {
-      setShowFile("");
-      setArray([]);
-    }
-
-    // console.log(file)
-  };
-
-  function swall() {
-    Swal.fire({
-      title:
-        "This option is used to make a join between 2 files already found in'your files' table.In the case where you want to make a join between 2 files that do not exist in the table, you must redo the process from the beginning",
-    });
-  }
 
   function handleClick() {
     setShow(!show);
   }
-  // const handleJoinedShow = async (fileName) => {
-  //   if (fileName.length > 0) {
-  //     setShowFile("");
-  //     setArray([]);
-  //     const response = await axios({
-  //       method: "get",
-  //       url: `http://localhost:8080/uploads/${fileName}`,
-  //     });
-  //     setShowFile(response.data);
-
-  //     csvFileToArray(response.data);
-  //     fileReader.readAsText(response.data);
-  //     // csvFileToArray(response.data.csvHeader)
-  //   } else {
-  //     setShowFile("");
-  //     setArray([]);
-  //   }
-  // };
+ 
 
   const csvFileToArray = (string) => {
     const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
@@ -185,22 +116,21 @@ export const Join = () => {
   };
 
   function getHeadersFromCsv(data) {
-    return data.slice(0, data.indexOf("\n")).split(",");
+    return data.slice(0, data.indexOf("\n")).split(","); //retreive headers from file
   }
   // const buttonshow = showFile ? <Button  style={{    backgroundColor: '#007FFF',color : '#ffffff',} } onClick={{setShow(false) ; handleShow("")}}>Show Joined Files</Button> :  <Button  style={{    backgroundColor: '#007FFF',color : '#ffffff',} }>Show Joined Files</Button>
 
   async function handleFile1Options(e) {
-    console.log(e.target.value);
     setFile1ToJoin(e.target.value);
-    console.log(file1ToJoin);
     if (e.target.value !== "") {
       const response = await downloadFiles(e.target.value);
       if (response.success === true) {
-        setHeaders1(getHeadersFromCsv(response.data));
+        setHeaders1(getHeadersFromCsv(response.data)); //only headers
       }
     }
   }
   function ConvertToCSV(objArray) {
+    console.log(objArray)
     var array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
     var str = "";
 
@@ -214,7 +144,7 @@ export const Join = () => {
 
       str += line + "\r\n";
     }
-
+console.log(str)
     return str;
   }
 
@@ -226,26 +156,23 @@ export const Join = () => {
       attribut2
     );
     if (response.success === true) {
-      console.log(response.data.joinedResult);
-      if (response.data.joinedResult.length > 0) {
+      if (response.data.joinedResult.length > 0 ) {
         const headerKeys2 = Object.keys(
-          Object.assign({}, ...response.data.joinedResult)
+          Object.assign({}, ...response.data.joinedResult) //get keys
         );
-        console.log(headerKeys2);
         const transform = ConvertToCSV(response.data.joinedResult);
-        console.log(transform);
         setShowFile(response.data.joinedResult);
         setJoinFileName(response.data.originalFileName);
 
-        const headersString =
+        const headersString = // headers qui sont séparés par , et puis transforme chaine
           headerKeys2.reduce(
             (previousHeader, currentHeader) =>
               previousHeader + "," + currentHeader,
             ""
           ) + "\n";
-        console.log(headersString);
-        csvFileToArray(headersString.substring(1) + transform);
+        csvFileToArray(headersString.substring(1) + transform); //fucntion accept only string
         setJoinedTab(false);
+        setButton(true)
       } else {
         const Toast = Swal.mixin({
           toast: true,
@@ -265,7 +192,6 @@ export const Join = () => {
   async function handleFile2Options(e) {
     console.log(e.target.value);
     setFile2ToJoin(e.target.value);
-    console.log(file2ToJoin);
     if (e.target.value !== "") {
       const response = await downloadFiles(e.target.value);
       if (response.success === true) {
@@ -275,7 +201,7 @@ export const Join = () => {
   }
 
   const headerKeys = Object.keys(Object.assign({}, ...array));
-  console.log(array);
+
   const showJoinedTab = joinedTab ? (
     <button className="buttonShowandHide" onClick={JoinedFiles}>
       show
@@ -287,6 +213,7 @@ export const Join = () => {
         setJoinedTab(true);
         setShowFile("");
         setJoinFileName("");
+        setButton(false)
       }}
     >
       Hide
@@ -341,17 +268,6 @@ export const Join = () => {
           <div style={{ marginLeft: 393, marginTop: -32 }}>Join Files</div>
         </Typography>
       </div>
-      {/*<div className="descr">
-        This option is used to make a join between 2 files already found in your
-        simple files list table.
-        <div>
-          In the case where you want to make a join between 2 files that do not
-          exist in the table, you must redo the process from the beginning.
-        </div>
-        <div>
-          The join can't be apply when the choice of the attributs is wrong ..!
-        </div>
-      </div>*/}
       <Button
         className="Button"
         onClick={handleClick}
@@ -405,20 +321,14 @@ export const Join = () => {
             </div>
           </>
         )}
-        <div className="selectoption">
+        <div >
           {headers1.length > 0 && (
-            <select
+            <select className="select9"
               value={attribut1}
               onChange={(e) => setAttribut1(e.target.value)}
             >
               <option value={""}>_please select an attribut_</option>
-              {headers1.map((element, index) => {
-                let subElt = element.substring(2, element.length - 2);
-                if (index === 0) {
-                  subElt = subElt.substring(1);
-                } else if (index === headers1.length - 1) {
-                  subElt = subElt.substring(0, subElt.length - 2);
-                }
+              {headers1.map((element) => {
 
                 return <option value={element}>{element}</option>;
               })}
@@ -427,37 +337,35 @@ export const Join = () => {
 
           {headers2.length > 0 && (
             <>
-              <select
+              <select  className="select14"
                 value={attribut2}
                 onChange={(e) => setAttribut2(e.target.value)}
               >
                 <option value={""}>_please select an attribut_</option>
                 {headers2.map((element, index) => {
-                  let subElt = element.substring(2, element.length - 2);
-                  if (index === 0) {
-                    subElt = subElt.substring(1);
-                  } else if (index === headers1.length - 1) {
-                    subElt = subElt.substring(0, subElt.length - 2);
-                  }
                   return <option value={element}>{element}</option>;
                 })}
               </select>
               <div>
                 {showJoinedTab}
-
-                <CSVLink data={showFile} filename={joinFileName}>
+                 {button && (
+                  <>
+                  <CSVLink data={showFile} filename={joinFileName}>
                   <button className="download">
                     Download
                     <AiOutlineCloudDownload />
                   </button>
                 </CSVLink>
-                <CSVLink
+
+{/*upload file csv type*/}
+                <CSVLink 
                   data={showFile}
-                  asyncOnClick={true}
+                  asyncOnClick={true} 
                   onClick={(event, done) => {
-                    console.log(showFile);
+                   
                     const formData = new FormData();
                     const blob = new File(
+                      //construction du fichier
                       [JSON.stringify(showFile)],
                       joinFileName,
                       {
@@ -469,13 +377,13 @@ export const Join = () => {
                     formData.append("attribut2", attribut2);
                     formData.append("idFile1", file1ToJoin);
                     formData.append("idFile2", file2ToJoin);
-                    console.log(blob);
+                   
                     axios({
-                      url: "/uploads/join/add/627abe2c5a6be5db4943d47b",
+                      url: "/uploads/join/add/",
                       method: "POST",
                       data: formData,
                     }).then((response) => {
-                      console.log(response);
+                     
                       const Toast = Swal.mixin({
                         toast: true,
                         position: "bottom-right",
@@ -486,39 +394,31 @@ export const Join = () => {
 
                       Toast.fire({
                         icon: "success",
-                        title: `${response.data} , you can now check your joined files list`,
+                        title: `${response.data} `,
                       });
 
                       setIsDeletedJoinFiles(!isDeletedJoinFiles);
                       done(false);
                     });
                     done(false);
-
-                    // done(false);
                   }}
                 >
-                  <button className="Buttonupload"> Join </button>
+                  <button className="Buttonupload"> Upload </button>
                 </CSVLink>
+                </>
+                 )}
+                
               </div>
             </>
           )}
         </div>
       </div>
-      <footer>
-        {" "}
-        <button
-          className="reference"
-          onClick={() => lastItemRef.current.scrollIntoView()}
-        >
-          <AiFillCaretUp />
-        </button>
-      </footer>
 
       {showFile && (
         <React.Fragment>
           <table className="jointable">
             <thead>
-              <tr key={"header"}>
+              <tr >
                 {headerKeys.map((key) => (
                   <th>{key}</th>
                 ))}

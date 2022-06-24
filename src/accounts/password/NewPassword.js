@@ -8,13 +8,13 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Swal from "sweetalert2";
 
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 const NewPassword = () => {
   const navigate = useNavigate();
   const [password, setPasword] = useState("");
-  const { token } = useParams();
-  console.log(token);
-  const PostData = () => {
+  const { token } = useParams(); //retreive token from url 
+  const PostData = (e) => {
+    e.preventDefault()
+    
     fetch("http://localhost:8080/password/newpassword", {
       method: "post",
       headers: {
@@ -25,9 +25,8 @@ const NewPassword = () => {
         token,
       }),
     })
-      .then((res) => res.json())
+      .then((res) =>{ return res.json()} )
       .then((data) => {
-        console.log(data);
         if (data.error) {
           const Toast = Swal.mixin({
             toast: true,
@@ -115,7 +114,7 @@ const NewPassword = () => {
                     type="submit"
                     variant="contained"
                     fullWidth
-                    onClick={() => PostData()}
+                    onClick={ PostData}
                     sx={{ mt: 2, mb: 5, width: 170, marginLeft: 22 }}
                   >
                     Save And Update
@@ -128,7 +127,7 @@ const NewPassword = () => {
 
         <img
           src="https://img.freepik.com/free-vector/key-concept-illustration_114360-6305.jpg?w=740&t=st=1653255390~exp=1653255990~hmac=4b428d4ff980f556029da56779b1de2ca7da1924c8dab9c37f03244df84b47c8"
-          //src="https://anhhung.mobi/phan-khuc-khach-hang-la-gi/imager_7_3416_700.jpg"
+         
           alt=""
           style={{ width: 800, height: 650, marginTop: -550, marginLeft: 10 }}
         />
@@ -138,16 +137,3 @@ const NewPassword = () => {
 };
 
 export default NewPassword;
-/*
-<input
-          type="password"
-          placeholder="enter a new password"
-          value={password}
-          onChange={(e) => setPasword(e.target.value)}
-        />
-<button
-          className="btn waves-effect waves-light #64b5f6 blue darken-1"
-          onClick={() => PostData()}
-        >
-          Update password
-        </button>*/

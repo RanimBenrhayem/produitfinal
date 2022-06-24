@@ -1,14 +1,8 @@
 import * as React from "react";
 import {
-  List,
   TableCell,
   TableRow,
   TableBody,
-  ListItemText,
-  ListItem,
-  Container,
-  Pagination,
-  Divider,
   Tabs,
   Tab,
   Typography,
@@ -17,24 +11,16 @@ import {
   Table,
   TableHead,
   Paper,
-  TableFooter,
-  FormControlLabel,
   TextField,
-  Stack,
 } from "@mui/material";
-import Checkbox from "@material-ui/core/Checkbox";
-import Switch from "@material-ui/core/Switch";
-import { BsInfoLg } from "react-icons/bs";
 import { FcSearch } from "react-icons/fc";
-import { GoSettings } from "react-icons/go";
-
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import LayoutHome from "../layout/LayoutHome";
 import axios from "axios";
-import CloseIcon from "@mui/icons-material/Close";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import Swal from "sweetalert2";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -73,8 +59,6 @@ function paginator(items, current_page, per_page_items) {
     offset = (page - 1) * per_page,
     paginatedItems = items.slice(offset).slice(0, per_page_items),
     total_pages = Math.ceil(items.length / per_page);
-  //console.log(total_pages, items.length, per_page);
-
   return {
     page: page,
     per_page: per_page,
@@ -87,20 +71,20 @@ function paginator(items, current_page, per_page_items) {
 }
 export default function WarningHome() {
   const [value, setValue] = React.useState(0);
+  const [deleted,setDeleted]=useState(false)
+
   let navigate = useNavigate()
 
   const handleChange1 = (event, newValue) => {
     setValue(newValue);
   };
   const [searchInput, setSearchInput] = React.useState("");
-  const [alertsCollection, setAlertsCollection] = React.useState([]);
   const [usersCollection, setUsersCollection] = React.useState([]);
   const [filteredResults, setFilteredResults] = React.useState([]);
 
-  const [listUpdated, setLisUpdated] = React.useState(false);
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
-    //console.log(searchValue);
+   
     if (searchInput !== "") {
       const filteredData = usersCollection.filter((data, i) => {
         return Object.values(data, i)
@@ -118,13 +102,53 @@ export default function WarningHome() {
     axios
       .get("http://localhost:8080/chart/alert/simple/all")
       .then((res) => {
-        //console.log(res.data);
+        console.log(res.data);
         setUsersCollection(res.data.result.reverse());
       })
       .catch(function (error) {
         console.log(error);
       });
-  } , []);
+  } , [deleted]);
+  const handleDelete =async (fileId)=>{
+    try{
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Delete it!",
+      }).then((result) => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "bottom-right",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+        });
+        if(result.isConfirmed) {
+          axios({
+            method:'delete',
+            url : `http://localhost:8080/chart/alert/delete/${fileId}`
+          }).then(response=>{
+
+
+            Toast.fire({
+              icon: "success",
+              title: response.data,
+            });
+            setDeleted(!deleted)
+
+          })
+        }
+      })
+
+    }catch (e) {
+      console.log(e)
+
+    }
+  }
 
   const count = Math.ceil(usersCollection.length / 1);
   const [page, setPage] = React.useState(1);
@@ -179,7 +203,7 @@ export default function WarningHome() {
               component={Link}
               to="/Warning"
             />
-            <Tab label="Settings" {...a11yProps(1)} />
+           
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -192,12 +216,15 @@ export default function WarningHome() {
           >
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableHead
-                style={{ backgroundColor: "#e53935", borderColor: "#e53935" }}
+                style={{ backgroundColor: "#e53935", borderColor: "#e53935", height: 100 }}
               >
                 <TableRow>
                   <TableCell
-                    style={{ fontWeight: "bold", color: "white", fontSize: 17 }}
+                    style={{ fontWeight: "bold", color: "white", fontSize: 15}}
                   >
+                   <br/> 
+                   <br/> 
+                   <br/> 
                     Alerts Details
                   </TableCell>
                 </TableRow>
@@ -274,7 +301,7 @@ export default function WarningHome() {
                                     <div onClick={()=>navigate(`/savedDashboard/${data._id}`)}>.....</div>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
-                                    delete
+                                    <div onClick={()=>handleDelete(data._id)}>delete</div>
                                   </TableCell>
                                 </TableRow>
                               );
@@ -294,7 +321,7 @@ export default function WarningHome() {
                                       <div onClick={()=>navigate(`/savedDashboard/${data._id}`)}>view</div>
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                      delete
+                                      <div onClick={()=>handleDelete(data._id)}>delete</div>
                                     </TableCell>
                                   </TableRow>
                                 );
@@ -305,127 +332,13 @@ export default function WarningHome() {
                   </TableContainer>
                 </TableBody>
                 <br />
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <Pagination
-                    count={paginator(usersCollection, page, 2).total_pages}
-                    page={paginator(usersCollection, page, 2).page}
-                    onChange={handleChange}
-                    color="info"
-                  />
-                </div>
+               
               </TableBody>
               <br />
             </Table>
           </TableContainer>
         </TabPanel>
-        <TabPanel value={value} index={1}>
-          <Paper
-            style={{
-              backgroundColor: "#eceff1",
-              width: 1150,
-              height: 480,
-              marginLeft: 25,
-            }}
-          >
-            <br />
-
-            <Typography
-              style={{
-                color: "#026aa4",
-                fontSize: 22,
-                fontWeight: "bold",
-                marginLeft: 400,
-              }}
-            >
-              <GoSettings /> &nbsp;&nbsp; Warnings Control Panel
-            </Typography>
-            <br />
-            <Stack direction="row">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <Typography style={{ marginTop: 7 }}>
-                Activate or desactivate :
-              </Typography>
-              &nbsp;&nbsp;&nbsp;
-              <FormControlLabel
-                control={
-                  <Switch
-                    color="primary"
-                    checked={checked}
-                    onChange={handleChange2}
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                  />
-                }
-                label="On"
-              />
-            </Stack>
-            <Stack style={{ marginLeft: 140 }}>
-              <Typography style={{ marginLeft: 150 }}>
-                Warning Program :
-              </Typography>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    checked={checkedBox}
-                    onChange={handleChangeBox}
-                    disabled={!checked}
-                  />
-                }
-                label="&nbsp;&nbsp;SMS"
-                labelPlacement="end"
-                style={{ marginLeft: 280 }}
-              />
-              <br />
-              <TextField
-                id="outlined-basic"
-                label="Phone Number "
-                size="small"
-                style={{ width: 250, marginLeft: 330, marginTop: -13 }}
-                variant="outlined"
-                disabled={!checkedBox}
-                //value={text}
-                //onChange={(e) => setText(e.target.value)}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    color="primary"
-                    checked={checkedBox2}
-                    onChange={handleChangeBox2}
-                    disabled={!checked}
-                  />
-                }
-                label="&nbsp;&nbsp;Email"
-                labelPlacement="end"
-                style={{ marginLeft: 280, marginTop: 13 }}
-              />
-              <TextField
-                id="outlined-basic"
-                label="Email Adress "
-                size="small"
-                variant="outlined"
-                disabled={!checkedBox2}
-                //value={text2}
-                //onChange={(e) => setText2(e.target.value)}
-
-                style={{ marginLeft: 330, marginTop: 13, width: 250 }}
-              />
-            </Stack>
-            <br />
-            <Typography>
-              &nbsp;&nbsp;&nbsp;Reminder : Alerts are only sent if your data
-              changes.
-            </Typography>
-            <br />
-            <hr style={{ width: 1080, marginLeft: 30 }} />
-            <br />
-
-            <Typography style={{ color: "gray" }}>
-              &nbsp;&nbsp;&nbsp; By default, you'll receivce notifications on
-              the application in the notification center.
-            </Typography>
-          </Paper>
-        </TabPanel>
+        
       </Box>
     </div>
   );

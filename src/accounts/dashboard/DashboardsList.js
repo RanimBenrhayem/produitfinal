@@ -12,6 +12,7 @@ import {FaPaintBrush}from "react-icons/fa"
 
 export default function RecomHome() {
     const [dashboardList , setDashboardList] = useState([])
+    const [deleted,setDeleted] = useState(false)
     let navigate = useNavigate()
     useEffect(()=> {
         async  function getAll() {
@@ -30,7 +31,20 @@ export default function RecomHome() {
 
         }
         getAll()
-    }, [])
+    }, [deleted])
+
+    const handleDelete= async (id)=>{
+        try{
+            const response = await axios({
+                method:"delete",
+                url:`http://localhost:8080/chart/delete/${id}`
+            })
+            console.log(response.data)
+            setDeleted(!deleted)
+        }catch (e) {
+            console.log(e)
+        }
+    }
   return (
     <div>
       <LayoutHome />
@@ -73,7 +87,7 @@ export default function RecomHome() {
                             <td>{attribut2} </td>
                             <td> {typeOfDashboard}</td>
                             <td> <button  className="paint"  onClick={()=>navigate(`/savedDashboard/${_id}`)}><FaPaintBrush/></button></td>
-                            <td className="buttonpoubelle">   <AiFillCloseCircle /></td>
+                            <td className="buttonpoubelle" onClick={()=>handleDelete(_id)}>   <AiFillCloseCircle /></td>
                         </tr>
                     })
                 )}

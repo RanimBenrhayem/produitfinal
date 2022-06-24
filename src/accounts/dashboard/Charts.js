@@ -3,7 +3,6 @@ import { useCallback, useRef } from "react";
 import {downloadFiles, getUserSimpleFiles} from "../../services/axios";
 import Swal from "sweetalert2";
 import 'chart.js/auto'
-
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -13,25 +12,10 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Bar, Bubble, Line ,Pie, Radar,Doughnut,Scatter, PolarArea} from 'react-chartjs-2';
+import { Bar, Bubble, Pie,  PolarArea} from 'react-chartjs-2';
 import axios from "axios";
 import ReactToPrint from "react-to-print";
-import { LineChart } from "recharts";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import { Grid, Box, Container, Typography } from "@mui/material";
-import Button from "@mui/material/Button";
-import DialogTitle from "@mui/material/DialogTitle";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import ChartAlert from "../alerts/ChartAlert";
-
-
-
 
 ChartJS.register(
     CategoryScale,
@@ -42,12 +26,6 @@ ChartJS.register(
     Legend
 );
 
-
-
-
-
-
-
 const Charts =   ()=> {
     const [fileToDraw , setFileToDraw] = useState("")
     const [headers1, setHeaders1] = useState("");
@@ -56,27 +34,14 @@ const Charts =   ()=> {
     const [fileData,setFileData] = useState([]) ;
     const [attribut1, setAttribut1] = useState("");
     const [attribut2, setAttribut2] = useState("");
-    const [attributAlert, setAttributAlert] = useState("");
     const [graph,setGraph] = useState({}) ;
     const [show,setShow] = useState(false);
-    const[showAlert,setShowAlert] = useState(true)
     const [open, setOpen] = React.useState(false);
     const[alertLabels,setAlertLabels] = useState([])
     const [alertData,setAlertData] = useState([])
     const [alertAttributes,setAlertAttributes] = useState([])
     const ref = useRef(null);
     const [saved,setSaved] = useState("")
-
-    const [age, setAge] = React.useState('');
-
-
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-
-    const handleClose = () => {
-      setOpen(false);
-    };
 
 
 
@@ -90,7 +55,6 @@ const Charts =   ()=> {
             if (response.success === true) {
 
                 setFiles(response.data);
-                console.log(response.data);
             } else {
                 Swal.fire({
                     icon: "error",
@@ -105,8 +69,8 @@ const Charts =   ()=> {
 
         fecthUserSimpleFiles();
     }, []);
+
     async function handleFileOptions(e) {
-        console.log(e.target.value);
         setFileToDraw(e.target.value);
         if (e.target.value !== "") {
             const response = await downloadFiles(e.target.value);
@@ -127,14 +91,11 @@ const Charts =   ()=> {
                     url : `http://localhost:8080/chart/draw/${fileToDraw}`,
                     data : {xaxis:attribut1 , yaxis : attribut2}
                 })
-const {xaxis,yaxis,labels,returnedData} = response.data
-                console.log(response.data)
+                const {xaxis,yaxis,labels,returnedData} = response.data //label : X returneddata:Y
                 setAlertLabels(labels)
                 setAlertData(returnedData)
                 setAlertAttributes([xaxis,yaxis])
                 const values = returnedData.map((element)=>parseFloat(element))
-                console.log(labels)
-                console.log(values)
                 setGraph({
                     labels,
                     datasets: [
@@ -179,7 +140,7 @@ const {xaxis,yaxis,labels,returnedData} = response.data
                     data : {attribut1 ,  attribut2,fileId : `${fileToDraw}` , typeOfDashboard:chart , isJoined:false}
                 })
 
-                setSaved(response.data._id)
+                setSaved(response.data.result._id)
                 const Toast = Swal.mixin({
                   toast: true,
                   position: "bottom-right",
@@ -190,7 +151,7 @@ const {xaxis,yaxis,labels,returnedData} = response.data
           
                 Toast.fire({
                   icon: "success",
-                  title: 'chart Saved , You can chek your dashboards List',
+                  title: response.data.msg,
                 });
             }
 
@@ -290,15 +251,8 @@ const options = {
               value={attribut1}
               onChange={(e) => setAttribut1(e.target.value)}
             >
-              <option value={""}>_please select an attribut_</option>
+              <option value={""}>please select an attribute</option>
               {headers1.map((element, index) => {
-                let subElt = element.substring(2, element.length - 2);
-                if (index === 0) {
-                  subElt = subElt.substring(1);
-                } else if (index === headers1.length - 1) {
-                  subElt = subElt.substring(0, subElt.length - 2);
-                }
-
                 return <option value={element}>{element}</option>;
               })}
             </select>
@@ -310,7 +264,7 @@ const options = {
               value={attribut2}
               onChange={(e) => setAttribut2(e.target.value)}
             >
-              <option value={""}>_please select an attribut_</option>
+              <option value={""}>please select an attribute</option>
               {headers1.map((element, index) => {
              
 
@@ -361,10 +315,6 @@ const options = {
           )}
         </div>
       </div>
-      {/* <div 
-      style={{height : '400px' , width : '400px',marginLeft : '450px',marginTop:'100px'}}>
-        {show && <Pie options={options} data={graph}  />}
-      </div> */}
 
         <div>
             { show && (<ChartAlert

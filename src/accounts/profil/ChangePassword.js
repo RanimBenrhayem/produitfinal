@@ -1,6 +1,4 @@
 import * as React from "react";
-import { Avatar } from "@material-ui/core";
-import InfoIcon from "@mui/icons-material/Info";
 import {
   Grid,
   Box,
@@ -12,12 +10,8 @@ import {
   TextField,
   Paper,
   Button,
-  Tooltip,
 } from "@mui/material";
-
 import LockResetIcon from "@mui/icons-material/LockReset";
-import { Link } from "react-router-dom";
-
 import axios from "axios";
 import Swal from "sweetalert2";
 import LayoutHome from "../layout/LayoutHome";
@@ -37,10 +31,7 @@ export default function ChangePassword() {
           password: oldPassword,
         },
       });
-      //console.log("c bon");
-
-      console.log(response.data);
-      setOldPassword("");
+      setOldPassword(oldPassword); 
       if (password.length > 5 && cPassword.length>5) {
         if (password === cPassword) {
         handleChangePassword(e, userId);
@@ -58,6 +49,7 @@ export default function ChangePassword() {
           title: "Oops...",
           text: ` The new password and the re-entred one do not match or length password must be >5 `,
         });
+        setOldPassword("");
       }
     } catch (error) {
       console.log(error);
@@ -85,10 +77,8 @@ export default function ChangePassword() {
           password: password,
         },
       });
-      //console.log("c bon");
-
-      console.log(response.data);
       setPassword("");
+      setOldPassword("");
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -98,7 +88,7 @@ export default function ChangePassword() {
       });
       Toast.fire({
         icon: "success",
-        title: "Password Updated Successfully",
+        title: response.data.data,
       });
     } catch (error) {
       console.log(error);
@@ -159,7 +149,7 @@ export default function ChangePassword() {
         >
           <Box
             component="form"
-            sx={{ mt: 5 }} //onSubmit={handleComparePass}
+            sx={{ mt: 5 }}
             onSubmit={handleOnSubmit}
           >
             <Grid container spacing={3}>

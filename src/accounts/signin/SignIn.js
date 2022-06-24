@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 //import SignUp from "../signup/SignUp";
 function SignIn() {
-  const {loggingIn} = useAuthContext()
+  const {loggingIn} = useAuthContext() 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -33,8 +33,14 @@ function SignIn() {
         },
       });
       loggingIn(response.data.token , response.data.role)
-      axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}` ;
-      navigate("/csvUploader");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}` ; //token envoyé avec chaque requete à travers un header authorization
+      if(response.data.role ==="client") {
+        navigate("/csvUploader");
+
+      } else {
+        navigate("/Users");
+
+      }
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -47,7 +53,7 @@ function SignIn() {
         icon: "success",
         title: response.data.msg,
       });
-      console.log(response.data)
+   
       setPassword("");
       setEmail("");
     } catch (error) {
@@ -141,16 +147,19 @@ function SignIn() {
                 >
                   Forgot Your Password ?
                 </Button>
-                <br />
+              
+               
               <br />
-              <Typography className="typography2" variant="p">
-                OR
-              </Typography>
               <div>
                 <Grid item sm={30} className="btngoogle">
                   <Google />
                 </Grid>
               </div>
+              <br />
+              <br />
+              <Typography className="typography2" variant="p">
+                OR
+              </Typography>
             </Grid>
           </Grid>
         </Box>

@@ -6,19 +6,17 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-//import "../../styles/accounts.css";
-
 import Swal from "sweetalert2";
 import axios from "axios"; //pour l'envoie des requetes
 
-function SignUp() {
+
+function SignUp({setWelcome}) {
   const [firstName, setFistName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  //const [role, setRole] = useState("user");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -54,7 +52,7 @@ function SignUp() {
       setPassword("");
       setPhoneNumber("");
       setEmail("");
-      navigate("/");
+      setWelcome(true)
     } catch (error) {
       console.log(error);
       const Toast = Swal.mixin({

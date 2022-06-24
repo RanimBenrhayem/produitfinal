@@ -8,20 +8,19 @@ export default function ChartAlert({attributes,labels,data,saved,setSaved,attrib
     const [choice,setChoice] = useState("")
     const [operator,setOperator] = useState("")
     const [val,setVal] = useState("")
-    const [confirmed,setConfirmed] = useState(false)
     const [xAlertResult , setXAlertResult] = useState([])
     const [yAlertResult, setYAlertResult] = useState([])
     const saveButtonText = saved.length>0? "save alert" :"save chart & alert"
 
 
 const handleConfirm = ()=>{
-        const alertData = choice == attributes[0]? labels : data
-    const compareVal = parseFloat(val)
+        const alertData = choice == attributes[0]? labels : data  //selon choix de user , alertdata est un tableau
+    const compareVal = parseFloat(val)  //val valeur de input
     let indexes = []
         const alertResult = alertData.filter((element,index)=>{
             switch (operator) {
-                case "=": if (element == compareVal) {
-                    indexes.push(index);
+                case "=": if (element == compareVal) { 
+                    indexes.push(index); 
                     return true
                 }
                 return false ;
@@ -47,16 +46,18 @@ const handleConfirm = ()=>{
                 return false;
             }
         })
-    const alertLabels =  choice == attributes[1]? labels : data
-    const otherChoice = choice == attributes[1]?attributes[0]:attributes[1]
-    const resultLabels = indexes.map((elt)=>alertLabels[elt])
+        //formulation de message
+    const alertLabels =  choice == attributes[1]? labels : data 
+    const otherChoice = choice == attributes[1]?attributes[0]:attributes[1]  //attribut contraire au choix
+    const resultLabels = indexes.map((elt)=>alertLabels[elt]) //tableau contient les labels 
+    //choice nom de l'attribut ,  elt : valeur trouvé , 
 
     setXAlertResult(resultLabels)
     setYAlertResult(alertResult)
     if(alertResult.length>0) {
         let swalText = "<br> <br> "
         alertResult.map((elt,index)=>{
-             swalText += ` ${choice}: ${elt} ${operator} ${val} for ${otherChoice}: ${resultLabels[index]} <br>`
+             swalText += ` ${choice}: ${elt} ${operator} ${val} for ${otherChoice}: ${resultLabels[index]} <br>` 
         })
         Swal.fire({
             title : 'Alert Box',
@@ -65,6 +66,12 @@ const handleConfirm = ()=>{
             html : `${swalText}`,
             footer : `you can save chart and alert by clicking the button : "${saveButtonText}"`
 
+        })
+    } else{
+        Swal.fire({
+            title : "Don't worry",
+            icon :"success",
+            footer : "No threat have been detected"
         })
     }
     
@@ -139,6 +146,19 @@ const handleSaveAlert =async ()=> {
 
         }catch (e) {
             console.log(e)
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-right",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+              });
+        
+              Toast.fire({
+                icon: "error",
+                title: e.response.data,
+              });
+
         }
 }
 
@@ -146,7 +166,7 @@ const handleSaveAlert =async ()=> {
         <>
 
             {attributes.length > 0 && (
-                <>
+                <div className="space">
                 <select className="select6"
                         value={choice}
                         onChange={(e) => setChoice(e.target.value)}
@@ -176,7 +196,7 @@ const handleSaveAlert =async ()=> {
                     <input className='input' className="input" name="value" type="text" value={val} onChange={(e)=>setVal(e.target.value)}/>
                     <button  className="buttonalert" onClick={handleConfirm}> confirm alert</button>
                     <button className="savealerte" onClick={handleSaveAlert}>{saveButtonText}</button>
-                </>
+                </div>
             )}
 
         </>

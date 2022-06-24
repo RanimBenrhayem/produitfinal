@@ -17,7 +17,8 @@ function Container() {
           <div className="buttonsignin2">Already a member ? Sign In</div>
         )}
       </button>
-      <div>{welcome ? <SignIn /> : <SignUp />}</div>
+    
+      <div>{welcome ? <SignIn /> : <SignUp  setWelcome={setWelcome} />}</div>
     </div>
   );
 }

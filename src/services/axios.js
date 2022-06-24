@@ -7,11 +7,11 @@ if(token.length>0) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}` ;
 }
 
-export const getUserSimpleFiles= async (id) =>{
+export const getUserSimpleFiles= async () =>{
     try {
         const response =   await axios({
             method: "get",
-            url :`/uploads/files/getall/${id}`,
+            url :`/uploads/files/getall/`,
         })
         return ({success : true,
             data : response.data,
@@ -32,7 +32,6 @@ export const getUserSimpleFiles= async (id) =>{
 
 export const uploadSingleFiles=async (formData)=>{
     try {
-        console.log(axios.defaults.headers)
         const response = await axios({
             url:'/uploads',
             method:'POST',
@@ -82,15 +81,12 @@ export const joinProcess = async (fileId1,fileId2,attribut1,attribut2)=>{
     }
 }
 
- export const deleteSignleFiles = async (id,userId)=>{
+ export const deleteSignleFiles = async (id)=>{
   try {
     const response = await axios ({
         method:"delete",
-        url:`/uploads/files/delete/${id}/${userId}`,
-      
-          
-    
-    
+        url:`/uploads/files/delete/${id}/`,
+  
       })
       return ({success : true,
         data : response.data,

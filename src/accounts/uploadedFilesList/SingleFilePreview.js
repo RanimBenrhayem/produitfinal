@@ -4,26 +4,21 @@ import {
   AiFillEye,
   AiFillEyeInvisible,
   AiFillCloseCircle,
-  AiOutlineCloudDownload,
 } from "react-icons/ai";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getSimpleFileById, deleteSignleFiles } from "../../services/axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { UserFiles } from "./SimpleFilesToUpload";
 
 function SingleFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
   const [showFile, setShowFile] = useState(false);
   const [fileInfo, setFileInfo] = useState({});
-  
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchFileById() {
       const response = await getSimpleFileById(id);
       if (response.success === true) {
-        setFileInfo(response.data);
+        setFileInfo(response.data); //file info
       }
     }
 
@@ -32,8 +27,8 @@ function SingleFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
 
   const button =
     !(
-      fileInfo &&
-      Object.keys(fileInfo).length === 0 &&
+      fileInfo && 
+      Object.keys(fileInfo).length === 0 && 
       Object.getPrototypeOf(fileInfo) === Object.prototype
     ) && showFile ? (
       <button
@@ -49,7 +44,7 @@ function SingleFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
       <button
         className="showeyes"
         onClick={() => {
-          handleShow(fileInfo.filename);
+          handleShow(id);
           setShowFile(true);
         }}
       >
@@ -68,7 +63,7 @@ function SingleFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
       confirmButtonText: "Delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteSignleFiles(id, "").then((response) => {
+        deleteSignleFiles(id).then((response) => {
           if (response.success === true) {
             const Toast = Swal.mixin({
               toast: true,
@@ -113,7 +108,6 @@ function SingleFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
           <td>
             <label>{fileInfo.metadata.originalFileName}</label>
           </td>
-          {/* <td> <CheckBox ></CheckBox>{element.originaleFileName}</td> */}
           <td>{button}</td>
           <td>
             <button className="buttonpoubelle" onClick={handleDelete}>

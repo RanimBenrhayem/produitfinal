@@ -24,6 +24,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LockResetIcon from "@mui/icons-material/LockReset";
 import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
+import {useAuthContext} from "../../contexts/authContext";
 export default function Menu2() {
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -33,6 +34,7 @@ export default function Menu2() {
   const [open6, setOpen6] = useState(false);
   const [open7, setOpen7] = useState(false);
   const [open8, setOpen8] = useState(false);
+  const {role} = useAuthContext()
   const handleClick = () => {
     setOpen(!open);
   };
@@ -63,524 +65,534 @@ export default function Menu2() {
   return (
     <React.Fragment>
       <List>
-        <Tooltip
+        {role==="client" && (
+            <>
+              <Tooltip
+                  title={
+                    <Typography style={{ fontSize: 15 }}>Data And Charts</Typography>
+                  }
+              >
+                <ListItem
+                    button // component={Link} to={"/Dashboard"}
+                    onClick={handleClick}
+                >
+                  <ListItemIcon>
+                    <FcComboChart
+                        style={{ color: "#009688", marginLeft: 1, fontSize: 27 }}
+                    />
+                    <Typography style={{ color: "black", marginLeft: 33 }}>
+                      Data And Charts
+                    </Typography>
+                  </ListItemIcon>
+
+                  {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+              </Tooltip>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <Tooltip
+                      title={
+                        <Typography style={{ fontSize: 12 }}>Upload Files</Typography>
+                      }
+                  >
+                    <ListItem
+                        button
+                        sx={{ pl: 6 }}
+                        style={{ marginLeft: 13 }}
+                        onClick={handleClick4}
+                        //component={Link}
+                        //to={"/UploadedFilesList"}
+                    >
+                      <ListItemIcon>
+                        <UploadFileIcon style={{ color: "green", fontSize: 27 }} />
+                        <Typography style={{ color: "black", marginLeft: 33 }}>
+                          Upload Files
+                        </Typography>
+                      </ListItemIcon>
+                      {open4 ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                  </Tooltip>
+                  <Collapse in={open4} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>
+                              Upload Simple File
+                            </Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 13 }}
+                            component={Link}
+                            to={"/CsvUploader"}
+                        >
+                          <ListItemIcon>
+                            <VscFile
+                                style={{
+                                  marginLeft: 8,
+                                  fontSize: 23,
+                                  color: "#1de9b6",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Upload Simple File
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>Join Files</Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 13 }}
+                            component={Link}
+                            to={"/JoinProcess"}
+                        >
+                          <ListItemIcon>
+                            <VscFiles
+                                style={{
+                                  marginLeft: 8,
+                                  fontSize: 23,
+                                  color: "#8bc34a",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Join Files
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                    </List>
+                  </Collapse>
+                  <Tooltip
+                      title={
+                        <Typography style={{ fontSize: 12 }}>
+                          Uploaded Files List
+                        </Typography>
+                      }
+                  >
+                    <ListItem
+                        button
+                        sx={{ pl: 6 }}
+                        onClick={handleClick5}
+                        style={{ marginLeft: 13 }}
+                    >
+                      <ListItemIcon>
+                        <FormatListBulletedIcon
+                            style={{ color: "#ff5722", fontSize: 27 }}
+                        />
+                        <Typography style={{ color: "black", marginLeft: 33 }}>
+                          Uploaded Files List
+                        </Typography>
+                      </ListItemIcon>
+                      {open5 ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                  </Tooltip>
+                  <Collapse in={open5} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>
+                              Simple Files List
+                            </Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 13 }}
+                            component={Link}
+                            to={"/UploadedSimpleFilesList"}
+                        >
+                          <ListItemIcon>
+                            <VscTasklist
+                                style={{
+                                  marginLeft: 8,
+                                  fontSize: 23,
+                                  color: "#795548",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Simple Files List
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>
+                              Joined Files List
+                            </Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 13 }}
+                            component={Link}
+                            to={"/JoinedFilesList"}
+                        >
+                          <ListItemIcon>
+                            <VscChecklist
+                                style={{
+                                  marginLeft: 8,
+                                  fontSize: 23,
+                                  color: "#D2691E",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Joined Files List
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                    </List>
+                  </Collapse>
+                  <Tooltip
+                      title={
+                        <Typography style={{ fontSize: 12 }}>Dashboards</Typography>
+                      }
+                  >
+                    <ListItem
+                        button
+                        sx={{ pl: 6 }}
+                        style={{ marginLeft: 17 }}
+                        onClick={handleClick7}
+                        // component={Link}
+                        //to={"/Dashboard"}
+                    >
+                      <ListItemIcon>
+                        <PieChartIcon
+                            style={{
+                              color: "#ffd740",
+                              fontSize: 23,
+                              marginLeft: -3.5,
+                            }}
+                        />
+                      </ListItemIcon>
+                      <Typography> Dashboards</Typography>
+                      {open7 ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                  </Tooltip>
+                  <Collapse in={open7} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>
+                              Simple Files Dashboard
+                            </Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 10 }}
+                            component={Link}
+                            to={"/Dashboard"}
+                        >
+                          <ListItemIcon>
+                            <ShowChartIcon
+                                style={{
+                                  marginLeft: -3,
+                                  //marginTop: 10,
+                                  fontSize: 23,
+                                  color: "#8A2BE2",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Simple Files <br />
+                              Dashboard
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>
+                              Joined Files Dashboard
+                            </Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 10 }}
+                            component={Link}
+                            to={"/joinedDashboard"}
+                        >
+                          <ListItemIcon>
+                            <StackedLineChartIcon
+                                style={{
+                                  marginLeft: -3,
+                                  //marginTop: 10,
+                                  fontSize: 23,
+                                  color: "#ff4081",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Joined Files <br />
+                              Dashboard
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>
+                              Dashboard list for simple files
+                            </Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 10 }}
+                            component={Link}
+                            to={"/DashboardsList"}
+                        >
+                          <ListItemIcon>
+                            <FcLineChart
+                                style={{
+                                  marginLeft: -3,
+                                  //marginTop: 10,
+                                  fontSize: 23,
+                                  color: "#8A2BE2",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Dashboard list <br />
+                              for simple files
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                      <Tooltip
+                          title={
+                            <Typography style={{ fontSize: 12 }}>
+                              Dashboard list for joined files
+                            </Typography>
+                          }
+                      >
+                        <ListItem
+                            button
+                            sx={{ pl: 6 }}
+                            style={{ marginLeft: 10 }}
+                            component={Link}
+                            to={"/joinedDashboardsList"}
+                        >
+                          <ListItemIcon>
+                            <FcBarChart
+                                style={{
+                                  marginLeft: -3,
+                                  //marginTop: 10,
+                                  fontSize: 23,
+                                  color: "#8A2BE2",
+                                }}
+                            />
+                            <Typography style={{ color: "black", marginLeft: 40 }}>
+                              Dashboard list for <br />
+                              Joined files
+                            </Typography>
+                          </ListItemIcon>
+                        </ListItem>
+                      </Tooltip>
+                    </List>
+                  </Collapse>
+                </List>
+              </Collapse>
+
+              <Tooltip
+                  title={<Typography style={{ fontSize: 15 }}>Warnings</Typography>}
+              >
+                <ListItem
+                    button
+                    sx={{ pl: 6 }}
+                    style={{ marginLeft: -1 }}
+                    onClick={handleClick8}
+                >
+                  <ListItemIcon>
+                    <Warning style={{ color: "red", fontSize: 27 }} />
+                  </ListItemIcon>
+                  <Typography style={{ marginLeft: 5 }}> Warnings</Typography>
+                  {open8 ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+              </Tooltip>
+              <Collapse in={open8} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <Tooltip
+                      title={
+                        <Typography style={{ fontSize: 12 }}>
+                          Warning Simple Files
+                        </Typography>
+                      }
+                  >
+                    <ListItem
+                        button
+                        sx={{ pl: 6 }}
+                        style={{ marginLeft: 10 }}
+                        component={Link}
+                        to={"/Warning"}
+                    >
+                      <ListItemIcon>
+                        <RiAlarmWarningLine
+                            style={{
+                              marginLeft: 10,
+                              //marginTop: 10,
+                              fontSize: 23,
+                              color: "#8B0000",
+                            }}
+                        />
+                        <Typography style={{ color: "black", marginLeft: 32 }}>
+                          Warning simple files
+                        </Typography>
+                      </ListItemIcon>
+                    </ListItem>
+                  </Tooltip>
+                  <Tooltip
+                      title={
+                        <Typography style={{ fontSize: 12 }}>
+                          Warning join files
+                        </Typography>
+                      }
+                  >
+                    <ListItem
+                        button
+                        sx={{ pl: 6 }}
+                        style={{ marginLeft: 10 }}
+                        component={Link}
+                        to={"/WarningJoined"}
+                    >
+                      <ListItemIcon>
+                        <RiAlarmWarningFill
+                            style={{
+                              marginLeft: 10,
+                              //marginTop: 10,
+                              fontSize: 23,
+                              color: "#B22222",
+                            }}
+                        />
+                        <Typography style={{ color: "black", marginLeft: 32 }}>
+                          Warning join files
+                        </Typography>
+                      </ListItemIcon>
+                    </ListItem>
+                  </Tooltip>
+                </List>
+              </Collapse>
+            </>
+        )}
+
+        { role==="admin" && (
+            <>
+            <Tooltip
+                title={
+                  <Typography style={{ fontSize: 15 }}> Manage Users</Typography>
+                }
+            >
+              <ListItem button onClick={handleClick2}>
+                <ListItemIcon>
+                  <PeopleIcon style={{ color: "#1a237e", fontSize: 27 }} />
+                </ListItemIcon>
+                <Typography> Manage Users</Typography>
+                {open2 ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+            </Tooltip>
+          <Collapse in={open2} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+          <Tooltip
           title={
-            <Typography style={{ fontSize: 15 }}>Data And Charts</Typography>
-          }
-        >
-          <ListItem
-            button // component={Link} to={"/Dashboard"}
-            onClick={handleClick}
+          <Typography style={{ fontSize: 12 }}>
+          Add Simple User
+          </Typography>
+        }
           >
-            <ListItemIcon>
-              <FcComboChart
-                style={{ color: "#009688", marginLeft: 1, fontSize: 27 }}
-              />
-              <Typography style={{ color: "black", marginLeft: 33 }}>
-                Data And Charts
-              </Typography>
-            </ListItemIcon>
-
-            {open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-        </Tooltip>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>Upload Files</Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                style={{ marginLeft: 13 }}
-                onClick={handleClick4}
-                //component={Link}
-                //to={"/UploadedFilesList"}
-              >
-                <ListItemIcon>
-                  <UploadFileIcon style={{ color: "green", fontSize: 27 }} />
-                  <Typography style={{ color: "black", marginLeft: 33 }}>
-                    Upload Files
-                  </Typography>
-                </ListItemIcon>
-                {open4 ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-            </Tooltip>
-            <Collapse in={open4} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Upload Simple File
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 13 }}
-                    component={Link}
-                    to={"/CsvUploader"}
-                  >
-                    <ListItemIcon>
-                      <VscFile
-                        style={{
-                          marginLeft: 8,
-                          fontSize: 23,
-                          color: "#1de9b6",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Upload Simple File
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>Join Files</Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 13 }}
-                    component={Link}
-                    to={"/JoinProcess"}
-                  >
-                    <ListItemIcon>
-                      <VscFiles
-                        style={{
-                          marginLeft: 8,
-                          fontSize: 23,
-                          color: "#8bc34a",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Join Files
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-              </List>
-            </Collapse>
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>
-                  Uploaded Files List
-                </Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                onClick={handleClick5}
-                style={{ marginLeft: 13 }}
-              >
-                <ListItemIcon>
-                  <FormatListBulletedIcon
-                    style={{ color: "#ff5722", fontSize: 27 }}
-                  />
-                  <Typography style={{ color: "black", marginLeft: 33 }}>
-                    Uploaded Files List
-                  </Typography>
-                </ListItemIcon>
-                {open5 ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-            </Tooltip>
-            <Collapse in={open5} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Simple Files List
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 13 }}
-                    component={Link}
-                    to={"/UploadedSimpleFilesList"}
-                  >
-                    <ListItemIcon>
-                      <VscTasklist
-                        style={{
-                          marginLeft: 8,
-                          fontSize: 23,
-                          color: "#795548",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Simple Files List
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Joined Files List
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 13 }}
-                    component={Link}
-                    to={"/JoinedFilesList"}
-                  >
-                    <ListItemIcon>
-                      <VscChecklist
-                        style={{
-                          marginLeft: 8,
-                          fontSize: 23,
-                          color: "#D2691E",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Joined Files List
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-              </List>
-            </Collapse>
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>Dashboards</Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                style={{ marginLeft: 17 }}
-                onClick={handleClick7}
-                // component={Link}
-                //to={"/Dashboard"}
-              >
-                <ListItemIcon>
-                  <PieChartIcon
-                    style={{
-                      color: "#ffd740",
-                      fontSize: 23,
-                      marginLeft: -3.5,
-                    }}
-                  />
-                </ListItemIcon>
-                <Typography> Dashboards</Typography>
-                {open7 ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-            </Tooltip>
-            <Collapse in={open7} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Simple Files Dashboard
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 10 }}
-                    component={Link}
-                    to={"/Dashboard"}
-                  >
-                    <ListItemIcon>
-                      <ShowChartIcon
-                        style={{
-                          marginLeft: -3,
-                          //marginTop: 10,
-                          fontSize: 23,
-                          color: "#8A2BE2",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Simple Files <br />
-                        Dashboard
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Joined Files Dashboard
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 10 }}
-                    component={Link}
-                    to={"/joinedDashboard"}
-                  >
-                    <ListItemIcon>
-                      <StackedLineChartIcon
-                        style={{
-                          marginLeft: -3,
-                          //marginTop: 10,
-                          fontSize: 23,
-                          color: "#ff4081",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Joined Files <br />
-                        Dashboard
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Dashboard list for simple files
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 10 }}
-                    component={Link}
-                    to={"/DashboardsList"}
-                  >
-                    <ListItemIcon>
-                      <FcLineChart
-                        style={{
-                          marginLeft: -3,
-                          //marginTop: 10,
-                          fontSize: 23,
-                          color: "#8A2BE2",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Dashboard list <br />
-                        for simple files
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-                <Tooltip
-                  title={
-                    <Typography style={{ fontSize: 12 }}>
-                      Dashboard list for joined files
-                    </Typography>
-                  }
-                >
-                  <ListItem
-                    button
-                    sx={{ pl: 6 }}
-                    style={{ marginLeft: 10 }}
-                    component={Link}
-                    to={"/joinedDashboardsList"}
-                  >
-                    <ListItemIcon>
-                      <FcBarChart
-                        style={{
-                          marginLeft: -3,
-                          //marginTop: 10,
-                          fontSize: 23,
-                          color: "#8A2BE2",
-                        }}
-                      />
-                      <Typography style={{ color: "black", marginLeft: 40 }}>
-                        Dashboard list for <br />
-                        Joined files
-                      </Typography>
-                    </ListItemIcon>
-                  </ListItem>
-                </Tooltip>
-              </List>
-            </Collapse>
-          </List>
-        </Collapse>
-
-        <Tooltip
-          title={<Typography style={{ fontSize: 15 }}>Warnings</Typography>}
-        >
           <ListItem
-            button
-            sx={{ pl: 6 }}
-            style={{ marginLeft: -1 }}
-            onClick={handleClick8}
+          button
+          sx={{ pl: 6 }}
+          style={{ marginLeft: 13 }}
+          component={Link}
+          to={"/AddUser"}
           >
-            <ListItemIcon>
-              <Warning style={{ color: "red", fontSize: 27 }} />
-            </ListItemIcon>
-            <Typography style={{ marginLeft: 5 }}> Warnings</Typography>
-            {open8 ? <ExpandLess /> : <ExpandMore />}
+          <ListItemIcon>
+          <PersonAddIcon style={{ color: "#448aff", fontSize: 27 }} />
+          <Typography style={{ color: "black", marginLeft: 33 }}>
+          Add Simple User
+          </Typography>
+          </ListItemIcon>
           </ListItem>
-        </Tooltip>
-        <Collapse in={open8} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>
-                  Warning Simple Files
-                </Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                style={{ marginLeft: 10 }}
-                component={Link}
-                to={"/Warning"}
-              >
-                <ListItemIcon>
-                  <RiAlarmWarningLine
-                    style={{
-                      marginLeft: 10,
-                      //marginTop: 10,
-                      fontSize: 23,
-                      color: "#8B0000",
-                    }}
-                  />
-                  <Typography style={{ color: "black", marginLeft: 32 }}>
-                    Warning simple files
-                  </Typography>
-                </ListItemIcon>
-              </ListItem>
-            </Tooltip>
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>
-                  Warning join files
-                </Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                style={{ marginLeft: 10 }}
-                component={Link}
-                to={"/WarningJoined"}
-              >
-                <ListItemIcon>
-                  <RiAlarmWarningFill
-                    style={{
-                      marginLeft: 10,
-                      //marginTop: 10,
-                      fontSize: 23,
-                      color: "#B22222",
-                    }}
-                  />
-                  <Typography style={{ color: "black", marginLeft: 32 }}>
-                    Warning join files
-                  </Typography>
-                </ListItemIcon>
-              </ListItem>
-            </Tooltip>
-          </List>
-        </Collapse>
-        <Tooltip
+          </Tooltip>
+
+          <Tooltip
           title={
-            <Typography style={{ fontSize: 15 }}> Manage Users</Typography>
-          }
-        >
-          <ListItem button onClick={handleClick2}>
-            <ListItemIcon>
-              <PeopleIcon style={{ color: "#1a237e", fontSize: 27 }} />
-            </ListItemIcon>
-            <Typography> Manage Users</Typography>
-            {open2 ? <ExpandLess /> : <ExpandMore />}
+          <Typography style={{ fontSize: 12 }}>
+          Add Administrator
+          </Typography>
+        }
+          >
+          <ListItem
+          button
+          sx={{ pl: 6 }}
+          style={{ marginLeft: 13 }}
+          component={Link}
+          to={"/AddAdmin"}
+          >
+          <ListItemIcon>
+          <AddModeratorIcon
+          style={{ color: "#588d9c", fontSize: 23 }}
+          />
+          <Typography style={{ color: "black", marginLeft: 33 }}>
+          Add Administrator
+          </Typography>
+          </ListItemIcon>
           </ListItem>
-        </Tooltip>
-        <Collapse in={open2} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>
-                  Add Simple User
-                </Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                style={{ marginLeft: 13 }}
-                component={Link}
-                to={"/AddUser"}
-              >
-                <ListItemIcon>
-                  <PersonAddIcon style={{ color: "#448aff", fontSize: 27 }} />
-                  <Typography style={{ color: "black", marginLeft: 33 }}>
-                    Add Simple User
-                  </Typography>
-                </ListItemIcon>
-              </ListItem>
-            </Tooltip>
-
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>
-                  Add Administrator
-                </Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                style={{ marginLeft: 13 }}
-                component={Link}
-                to={"/AddAdmin"}
-              >
-                <ListItemIcon>
-                  <AddModeratorIcon
-                    style={{ color: "#588d9c", fontSize: 23 }}
-                  />
-                  <Typography style={{ color: "black", marginLeft: 33 }}>
-                    Add Administrator
-                  </Typography>
-                </ListItemIcon>
-              </ListItem>
-            </Tooltip>
-            <Tooltip
-              title={
-                <Typography style={{ fontSize: 12 }}>Users List</Typography>
-              }
-            >
-              <ListItem
-                button
-                sx={{ pl: 6 }}
-                style={{ marginLeft: 13 }}
-                component={Link}
-                to={"/Users"}
-              >
-                <ListItemIcon>
-                  <BsPersonLinesFill
-                    style={{
-                      color: "#9e8bca",
-                      fontSize: 23,
-                      marginLeft: 2,
-                    }}
-                  />
-                  <Typography style={{ color: "black", marginLeft: 33 }}>
-                    Users List
-                  </Typography>
-                </ListItemIcon>
-              </ListItem>
-            </Tooltip>
+          </Tooltip>
+          <Tooltip
+          title={
+          <Typography style={{ fontSize: 12 }}>Users List</Typography>
+        }
+          >
+          <ListItem
+          button
+          sx={{ pl: 6 }}
+          style={{ marginLeft: 13 }}
+          component={Link}
+          to={"/Users"}
+          >
+          <ListItemIcon>
+          <BsPersonLinesFill
+          style={{
+          color: "#9e8bca",
+          fontSize: 23,
+          marginLeft: 2,
+        }}
+          />
+          <Typography style={{ color: "black", marginLeft: 33 }}>
+          Users List
+          </Typography>
+          </ListItemIcon>
+          </ListItem>
+          </Tooltip>
           </List>
-        </Collapse>
-        <Tooltip
+          </Collapse>
+          <Tooltip
           title={<Typography style={{ fontSize: 15 }}>Comments</Typography>}
-        >
+          >
           <ListItem button component={Link} to={"/Comments"}>
-            <ListItemIcon>
-              <AddCommentIcon style={{ color: "#db996c", fontSize: 27 }} />
-            </ListItemIcon>
-            <Typography> Comments</Typography>
+          <ListItemIcon>
+          <AddCommentIcon style={{ color: "#db996c", fontSize: 27 }} />
+          </ListItemIcon>
+          <Typography> Comments</Typography>
           </ListItem>
-        </Tooltip>
+          </Tooltip>
+            </>
+        )}
+
         <Divider />
         <Tooltip
           title={<Typography style={{ fontSize: 15 }}>Your Profile</Typography>}

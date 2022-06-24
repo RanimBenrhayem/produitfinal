@@ -125,19 +125,25 @@ export default function UsersList() {
   const [id, setId] = React.useState("");
   const [emailContent, setEmailContent] = React.useState("");
   const [listUpdated, setLisUpdated] = React.useState(false);
+
   const [open2, setOpen2] = React.useState("");
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [searchInput, setSearchInput] = React.useState("");
+  const [filteredResults, setFilteredResults] = React.useState([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
+    //update side effects when one variable of the dependency array changes --> run function
     axios
       .get("http://localhost:8080/user/userslist")
       .then((res) => {
-        console.log(res.data);
         setUsersCollection(res.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  }, [listUpdated]);
+  }, [listUpdated]); //denepency 
   const handleDeleteUser = (_id) => {
     Swal.fire({
       title: "Do You Realy Want To Delete This User?",
@@ -152,10 +158,8 @@ export default function UsersList() {
         axios
           .delete(`http://localhost:8080/user/deleteuser/${_id}`)
           .then((res) => {
-            console.log(res.data);
-            // setUsersCollection([res.data]);
+            setSearchInput('')
             setLisUpdated(!listUpdated);
-            console.log("cbon");
             const Toast = Swal.mixin({
               toast: true,
               position: "bottom-right",
@@ -165,7 +169,7 @@ export default function UsersList() {
 
             Toast.fire({
               icon: "success",
-              title: "User Deleted Successfully !",
+              title: res.data,
             });
           })
           .catch(function (error) {
@@ -198,7 +202,7 @@ export default function UsersList() {
           phoneNumber,
         },
       });
-      //console.log("c bon");
+      setSearchInput('')
 
       setLisUpdated(!listUpdated);
       const Toast = Swal.mixin({
@@ -211,7 +215,7 @@ export default function UsersList() {
 
       Toast.fire({
         icon: "success",
-        title: "user Updated successfully",
+        title: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -220,29 +224,23 @@ export default function UsersList() {
         title: "Oops...",
         text: ` ${error.response.data} `,
       }).then(function () {
-        setOpen(true);
+        setOpen(true); //fenetre reste ouverte lors dune erreur
       });
-    } finally {
+    } finally { 
       setOpen(false);
     }
   };
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  //     set search query to empty string
-  const [searchInput, setSearchInput] = React.useState("");
-  //A new state for the filtered data
-  const [filteredResults, setFilteredResults] = React.useState([]);
+  
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
-    //console.log(searchValue);
+    
     if (searchInput !== "") {
-      const filteredData = usersCollection.filter((data, i) => {
-        return Object.values(data, i)
-          .join("")
+      const filteredData = usersCollection.filter((data, i) => { //fonction de filtrage , elle filtre un tableau d'objet , data : object , i : index
+        return Object.values(data, i) // values of the table not the keys
+          .join("") //convert object array to string
           .toLowerCase()
-          .includes(searchInput.toLowerCase());
+          .includes(searchInput.toLowerCase()); //boolean
       });
-      //console.log(filteredData);
       setFilteredResults(filteredData);
     } else {
       setFilteredResults(usersCollection);
@@ -250,8 +248,6 @@ export default function UsersList() {
   };
 
   const sendEmail = async () => {
-    console.log(emailContent);
-
     try {
       const response = await axios({
         method: "post",
@@ -261,7 +257,9 @@ export default function UsersList() {
           message: emailContent,
         },
       });
+    
       setEmailContent("");
+      setSearchInput('')
       setShow(false);
       const Toast = Swal.mixin({
         toast: true,
@@ -273,9 +271,8 @@ export default function UsersList() {
 
       Toast.fire({
         icon: "success",
-        title: 'Email sended...',
+        title: "Email sended...",
       });
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -295,7 +292,7 @@ export default function UsersList() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const handleClickOpen = async (userId) => {
+  const handleClickOpen = async (userId) => { //get informations from user
     try {
       const response = await axios({
         method: "get",
@@ -314,7 +311,7 @@ export default function UsersList() {
       console.log(error);
     }
   };
-  const navigate = useNavigate();
+
 
   const handleClick2 = () => {
     setOpen2(true);
@@ -370,15 +367,18 @@ export default function UsersList() {
               }}
             />
             <TextField
-              //  inputRef={inputElem}
               id="outlined-basic"
               label="Search User "
               variant="outlined"
               sx={{ mt: 1, mb: 2 }}
               style={{ width: 350, marginRight: 420 }}
               onChange={(e) => searchItems(e.target.value)}
+              value = {searchInput}
             />
           </Grid>
+        {/*
+        bouton de suggestion
+            */}
           <Tooltip
             title={
               <Typography style={{ fontsize: 13 }}>
@@ -437,7 +437,7 @@ export default function UsersList() {
             </DialogContent>
           </Dialog>
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+            <Table sx={{ minWidth: 500 }} aria-label="custom pagination table"> 
               <TableHead style={{ backgroundColor: "#DAE4F6" }}>
                 <TableRow>
                   <TableCell style={{ fontWeight: "bold", color: "#026aa4" }}>
@@ -462,7 +462,7 @@ export default function UsersList() {
                     align="center"
                     style={{ fontWeight: "bold", color: "#026aa4" }}
                   >
-                    Actions
+                    action
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -489,7 +489,11 @@ export default function UsersList() {
                           <TableCell component="th" scope="row">
                             {data.roleId.name}
                           </TableCell>
-                          <TableCell>
+                         {/*
+                         les 3 boutons de l'action
+                         */}
+
+                            <TableCell>
                             <ButtonGroup
                               variant="outlined"
                               orientation={"horizontal"}
@@ -498,7 +502,7 @@ export default function UsersList() {
                             >
                               <Button
                                 color="info"
-                                //onClick={handleClickOpen}
+                                //onClick={handleEditClick}
                                 onClick={() => handleClickOpen(data._id)}
                                 startIcon={<EditIcon />}
                               />
@@ -593,21 +597,64 @@ export default function UsersList() {
                                   </Box>
                                 </DialogContent>
                               </Dialog>
-                              <Tooltip title="View More Details">
-                                <Button
-                                  color="success"
-                                  //onClick={handlePreviewClick}
-                                  startIcon={<EmailOutlinedIcon />}
-                                />
-                              </Tooltip>
+
+                              <Button
+                                color="success"
+                                onClick={() => handlePreviewClick(data.email)}
+                                startIcon={<EmailOutlinedIcon />}
+                              />
+                              <Dialog
+                                open={show}
+                                onClose={handleShow}
+                                fullWidth
+                              >
+                                <DialogTitle>Send message</DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText>
+                                    Please write your message here ...!
+                                  </DialogContentText>
+                                  <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="message"
+                                    label="message"
+                                    type="message"
+                                    fullWidth
+                                    variant="standard"
+                                    value={emailContent}
+                                    onChange={(e) =>
+                                      setEmailContent(e.target.value)
+                                    }
+                                  />
+                                  <Grid container spacing={2}>
+                                    <Grid item sm={5}>
+                                      <Button
+                                        type="submit"
+                                        variant="contained"
+                                        onClick={sendEmail}
+                                        sx={{ mt: 5, mb: 1 }}
+                                      >
+                                        Save
+                                      </Button>
+                                    </Grid>
+                                    <Grid item sm={5}>
+                                      <Button
+                                        type="reset"
+                                        variant="outlined"
+                                        onClick={handleShow}
+                                        sx={{ mt: 5, mb: 1, marginLeft: 5 }}
+                                      >
+                                        Cancel
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </DialogContent>
+                              </Dialog>
+
                               <Tooltip title="Delete">
                                 <Button
                                   color="error"
-                                  onClick={(e) =>
-                                    handleDeleteUser(
-                                      data._id
-                                    ).setUsersCollection(data, i)
-                                  }
+                                  onClick={() => handleDeleteUser(data._id)}
                                   startIcon={<DeleteIcon />}
                                 />
                               </Tooltip>
@@ -799,7 +846,7 @@ export default function UsersList() {
                                         type="reset"
                                         variant="outlined"
                                         onClick={handleShow}
-                                        sx={{ mt: 5, mb: 1 ,marginLeft : 5 }}
+                                        sx={{ mt: 5, mb: 1, marginLeft: 5 }}
                                       >
                                         Cancel
                                       </Button>
@@ -807,28 +854,6 @@ export default function UsersList() {
                                   </Grid>
                                 </DialogContent>
                               </Dialog>
-
-                              {/* 
-<Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
-        <DialogContent  >
-          <DialogContentText>
-            To send an email to this user , please write your message...
-          </DialogContentText>
-          <TextField
-            
-            id="message"
-            label="message"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Send</Button>
-        </DialogActions>
-      </Dialog> */}
 
                               <Tooltip title="Delete">
                                 <Button

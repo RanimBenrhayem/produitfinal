@@ -13,32 +13,22 @@ import {
   Paper,
   Button,
   Tooltip,
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-  TableCell,
 } from "@mui/material";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import LayoutHome from "../layout/LayoutHome";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export default function Profil() {
-  const [open, setOpen] = React.useState(false);
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
-
   const [id, setId] = React.useState("");
-  const [emailContent, setEmailContent] = React.useState("");
-  const [listUpdated, setLisUpdated] = React.useState(false);
-  const navigate = useNavigate();
+
   React.useEffect(() => {
     handleOnClickOpen();
-  }, []);
+  }, []); //composant s'affiche sur l'ecran donc dependency array is empty
 
   const handleOnClickOpen = async (userId) => {
     try {
@@ -52,8 +42,6 @@ export default function Profil() {
       setLastName(lastName);
       setPhoneNumber(phoneNumber);
       setEmail(email);
-
-      setOpen(true);
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +51,7 @@ export default function Profil() {
     try {
       const response = await axios({
         method: "put",
-        url: `http://localhost:8080/user/updateuser/${id}`,
+        url: `http://localhost:8080/user/updateuser/${id}`, 
         data: {
           firstName,
           lastName,
@@ -71,9 +59,6 @@ export default function Profil() {
           phoneNumber,
         },
       });
-      //console.log("c bon");
-
-      setLisUpdated(!listUpdated);
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -84,7 +69,7 @@ export default function Profil() {
 
       Toast.fire({
         icon: "success",
-        title: "Your Account Has Been Updated Successfully",
+        title: response.data, 
       });
     } catch (error) {
       console.log(error);
@@ -94,59 +79,6 @@ export default function Profil() {
         text: ` ${error.response.data} `,
       }).then(function () {});
     }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleDeleteUser = () => {
-    Swal.fire({
-      title: "Do You Realy Want To Delete Your Account?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-      cancelButtonText: "No",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .delete(`http://localhost:8080/user/deleteprofile/${id}`)
-          .then((res) => {
-            console.log(res.data);
-            // setUsersCollection([res.data]);
-            //setLisUpdated(!listUpdated);
-            console.log("cbon");
-            navigate("/");
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "bottom-right",
-              showConfirmButton: false,
-              timer: 1000,
-            });
-
-            Toast.fire({
-              icon: "success",
-              title: "Your Account Has Been Deleted Successfully !",
-            });
-          })
-          .catch(function (error) {
-            console.log(error);
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "bottom-right",
-              showConfirmButton: false,
-              timer: 1000,
-            });
-
-            Toast.fire({
-              icon: "error",
-              title: error,
-            });
-          });
-      }
-    });
   };
   return (
     <div
@@ -185,7 +117,7 @@ export default function Profil() {
         <br />
         <Paper
           sx={{ padding: "2em 2em", boxShadow: 2 }}
-          style={{ marginTop: -40, height: 300 }}
+          style={{ marginTop: 9, height: 300 }}
         >
           <Box component="form" sx={{ mt: 5 }} onSubmit={handleUpdateUser}>
             <Grid container spacing={3}>
@@ -254,7 +186,7 @@ export default function Profil() {
 
               <Grid item sm={5}>
                 <Button
-                  style={{ marginTop: 10, marginLeft: -160, width: 200 }}
+                  style={{ marginTop: 10, marginLeft: -90, width: 200 }}
                   type="submit"
                   variant="contained"
                   //fullWidth
@@ -263,70 +195,10 @@ export default function Profil() {
                   Save And Update
                 </Button>
               </Grid>
-              <Grid item sm={5}>
-                <Button
-                  style={{ marginTop: -120, marginLeft: 550, width: 200 }}
-                  variant="contained"
-                  component={Link}
-                  to={"/ChangePassword"}
-                  sx={{ mt: 2, mb: 2 }}
-                  color="success"
-                >
-                  Change Password
-                </Button>
-              </Grid>
             </Grid>
           </Box>
         </Paper>
-        <br />
-        <Paper>
-          <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-            <TableHead
-              style={{ backgroundColor: "#e53935", borderColor: "#e53935" }}
-            >
-              <TableRow>
-                <TableCell>
-                  <div>
-                    <RemoveCircleIcon
-                      style={{
-                        fontWeight: "bold",
-                        color: "white",
-                        fontSize: 27,
-                      }}
-                    />
-                  </div>
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                      fontSize: 15,
-                      marginLeft: 40,
-                      marginTop: -30,
-                    }}
-                  >
-                    Delete Account
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Once you delete your account, there is no going back. Please
-                  be certain. <br />
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    style={{ marginTop: 10, marginLeft: -40 }}
-                    onClick={handleDeleteUser}
-                  >
-                    Delete Profil Now
-                  </Button>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Paper>
+        
       </Container>
     </div>
   );

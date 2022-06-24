@@ -8,13 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios"; //pour l'envoie des requetes
 import EditIcon from "@mui/icons-material/Edit";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
-import ReplyIcon from "@mui/icons-material/Reply";
 import CommentIcon from "@mui/icons-material/Comment";
-import SortIcon from "@mui/icons-material/Sort";
 import "./comment.css";
 import {
   Typography,
@@ -29,17 +23,10 @@ import {
   IconButton,
   Tooltip,
   MenuItem,
-  InputLabel,
-  FormControl,
-  Select,
   Paper,
   ListItem,
-  ListItemAvatar,
   ListItemText,
-  ListItemIcon,
-  DialogTitle,
   Dialog,
-  DialogContent,
   Divider,
   Slide,
   Menu,
@@ -50,7 +37,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import InfoIcon from "@mui/icons-material/Info";
 import { BiEdit } from "react-icons/bi";
-import Replies from "./Replies";
 
 function paginator(items, current_page, per_page_items) {
   let page = current_page || 1,
@@ -58,7 +44,6 @@ function paginator(items, current_page, per_page_items) {
     offset = (page - 1) * per_page,
     paginatedItems = items.slice(offset).slice(0, per_page_items),
     total_pages = Math.ceil(items.length / per_page);
-  //console.log(total_pages, items.length, per_page);
 
   return {
     page: page,
@@ -147,10 +132,8 @@ const useStyles = makeStyles((theme) => ({
   responses: {
     marginLeft: theme.spacing(10),
     width: "100%",
-    //backgroundColor: theme.palette.background.paper,
     marginBottom: theme.spacing(-5),
     borderRadius: 5,
-    //backgroundColor: "rgb(240 , 240 , 240)",
   },
   paper: {
     width: 900,
@@ -163,171 +146,38 @@ const useStyles = makeStyles((theme) => ({
   },
 
   Delete: {
-    marginRight: theme.spacing(11),
-  },
-
-  Edit: {
     marginRight: theme.spacing(13),
   },
+
 }));
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef(function Transition(props, ref) { 
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const CommentsHome = () => {
   const classes = useStyles();
-
   const [isUpdated, setIsUpdated] = React.useState(false);
   const [topic, setTopic] = React.useState("");
   const [content, setContent] = React.useState("");
-  const [topic2, setTopic2] = React.useState("");
-  const [content2, setContent2] = React.useState("");
   const [userId, setUserId] = React.useState("");
-
   const [commentCollection, setCommentCollection] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [createdAt, setCreatedAt] = React.useState("");
   const [filteredResults, setFilteredResults] = React.useState([]);
   const [searchInput, setSearchInput] = React.useState("");
-  const [choice, setChoice] = React.useState("");
-  const [filter1, setFilter1] = React.useState("");
-  const [show, setShow] = React.useState(false);
-  const [searchUser, setSearchUser] = React.useState("");
   const [filteredUsers, setFilteredUsers] = React.useState([]);
   const [open2, setOpen2] = React.useState("");
-  const [openReply, setOpenReply] = React.useState(false);
-  const [isUpdated2, setIsUpdated2] = React.useState(false);
-  const [text, setText] = React.useState("");
   const [openUserDial, setOpenUserDial] = React.useState(false);
-  const [openDateDial, setOpenDateDial] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openWeekDial, setOpenWeekDial] = React.useState(false);
   const [openMonthDial, setOpenMonthDial] = React.useState(false);
   const [openYearDial, setOpenYearDial] = React.useState(false);
   const [openDayDial, setOpenDayDial] = React.useState(false);
   const [open15DaysDial, setOpen15DaysDial] = React.useState(false);
-  const [commentId, setCommentId] = React.useState("");
-  const [repliesCollection, setRepliesCollection] = React.useState([]);
-  const [likesCollection, setLikesCollection] = React.useState([]);
-  const [Likes, setLikes] = React.useState(0);
-  const [Dislikes, setDislikes] = React.useState(0);
-  const [LikeAction, setLikeAction] = React.useState(null);
-  const [DislikeAction, setDislikeAction] = React.useState(null);
-  const [disliked, setDisliked] = React.useState(false);
 
-  const handleLikes = (id, userId) => {
-    if (LikeAction == null) {
-      axios
-        .post(`http://localhost:8080/comments/${id}/addlike`)
-        .then((res) => {
-          console.log(res.data);
-          setLikes(Likes + 1);
-          setLikeAction("liked");
-          console.log(LikeAction);
-          console.log(Likes);
-
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "bottom-right",
-            showConfirmButton: false,
-            timer: 1300,
-          });
-
-          Toast.fire({
-            customClass: {
-              container: "myswal",
-            },
-            icon: "info",
-            title: res.data,
-          });
-        })
-        .catch((err) => console.log(err));
-    } else {
-      axios
-        .post(`http://localhost:8080/comments/${id}/unlike`)
-        .then((res) => {
-          console.log(res.data);
-
-          setLikes(Likes - 1);
-          setLikeAction(null);
-
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "bottom-right",
-            showConfirmButton: false,
-            timer: 1300,
-          });
-
-          Toast.fire({
-            customClass: {
-              container: "myswal",
-            },
-            icon: "info",
-            title: "You unliked this comment.",
-          });
-        })
-        .catch((err) => console.log(err));
-    }
-  };
-
-  const handleDislikes = (id) => {
-    if (DislikeAction == null) {
-      axios
-        .post(`http://localhost:8080/comments/${id}/adddislike`)
-        .then((res) => {
-          console.log(res.data);
-          setDislikes(Dislikes + 1);
-          setDislikeAction("disliked");
-          console.log(DislikeAction);
-          console.log(Dislikes);
-
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "bottom-right",
-            showConfirmButton: false,
-            timer: 1300,
-          });
-
-          Toast.fire({
-            customClass: {
-              container: "myswal",
-            },
-            icon: "info",
-            title: res.data,
-          });
-        })
-        .catch((err) => console.log(err));
-    } else {
-      axios
-        .post(`http://localhost:8080/comments/${id}/undislike`)
-        .then((res) => {
-          console.log(res.data);
-
-          setDislikes(Dislikes - 1);
-          setDislikeAction(null);
-
-          const Toast = Swal.mixin({
-            toast: true,
-            position: "bottom-right",
-            showConfirmButton: false,
-            timer: 1300,
-          });
-
-          Toast.fire({
-            customClass: {
-              container: "myswal",
-            },
-            icon: "info",
-            title: "You undisliked this comment.",
-          });
-        })
-        .catch((err) => console.log(err));
-    }
-  };
 
   const handleClickOpenDateDial = (event) => {
     setAnchorEl(event.currentTarget);
-    //setOpenDateDial(true);
   };
 
   const handleCloseDateDial = () => {
@@ -380,22 +230,12 @@ const CommentsHome = () => {
       .get(`http://localhost:8080/comments/getCommentByUser/:userId?`)
       .then((res) => {
         setFilteredUsers(res.data.reverse());
-
-        //console.log(filteredUsers);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  //console.log();
-
-  const handleClick2 = () => {
-    setOpen2(true);
-  };
-  const handleClose2 = () => {
-    setOpen2(false);
-  };
   const handleChange = (event, value) => {
     setPage(paginator(commentCollection, value, 1).page);
   };
@@ -409,11 +249,11 @@ const CommentsHome = () => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [isUpdated, content]);
+  }, [isUpdated]);
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      await axios({
+    const response =  await axios({
         //requete
         method: "POST",
         url: "http://localhost:8080/comments/addcomment",
@@ -422,12 +262,10 @@ const CommentsHome = () => {
           topic: topic,
           content: content,
           userId: userId,
-
           createdAt: createdAt,
         },
       });
 
-      //setRole("");
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -437,7 +275,7 @@ const CommentsHome = () => {
 
       Toast.fire({
         icon: "success",
-        title: "Comment Added Successfully !",
+        title: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -471,8 +309,6 @@ const CommentsHome = () => {
           .post(`http://localhost:8080/comments/deletecomment/${_id}`)
           .then((res) => {
             console.log(res.data);
-            // setCommentCollection([res.data]);
-            //console.log("c bon deleted");
             setIsUpdated(!isUpdated);
 
             const Toast = Swal.mixin({
@@ -487,7 +323,7 @@ const CommentsHome = () => {
                 container: "myswal",
               },
               icon: "success",
-              title: "Comment Deleted Successfully !",
+              title: res.data,
             });
           })
           .catch(function (error) {
@@ -496,7 +332,7 @@ const CommentsHome = () => {
               toast: true,
               position: "bottom-right",
               showConfirmButton: false,
-              timer: 1100,
+              timer: 2100,
             });
 
             Toast.fire({
@@ -524,51 +360,7 @@ const CommentsHome = () => {
       console.log(error);
     }
   };
-  const handleUpdateComment = async (id) => {
-    //e.preventDefault();
-    try {
-      const response = await axios({
-        method: "put",
-        url: `http://localhost:8080/comments/updatecomment/${id}`,
-        data: {
-          topic: topic,
-          content: content,
-        },
-      });
-      //console.log("c bon");
-
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-right",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-      });
-
-      Toast.fire({
-        customClass: {
-          container: "myswal",
-        },
-        icon: "success",
-        title: "Comment Updated Successfully",
-      });
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        customClass: {
-          container: "myswal",
-        },
-        icon: "error",
-        title: "Oops...",
-        text: ` ${error.response.data} `,
-      }).then(function () {
-        setOpen2(true);
-      });
-    } finally {
-      setOpen2(false);
-      setIsUpdated(!isUpdated);
-    }
-  };
+ 
 
   ////////////////////////////////////////////// 1 week filter ///////////////////////////////////////
   var seventhDay = new Date();
@@ -614,7 +406,7 @@ const CommentsHome = () => {
 
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
-    //console.log(searchValue);
+
     if (searchInput !== "") {
       const filteredData = commentCollection.filter((data, i) => {
         return Object.values(data, i)
@@ -622,20 +414,13 @@ const CommentsHome = () => {
           .toLowerCase()
           .includes(searchInput.toLowerCase());
       });
-      //console.log(filteredData);
-      //console.log(commentCollection.userId.firstName);
       setFilteredResults(filteredData);
     } else {
       setFilteredResults(commentCollection);
     }
   };
 
-  const handleClickReply = (id) => {
-    if (id) {
-      setOpenReply(!openReply);
-      console.log(id);
-    }
-  };
+
   const handleTotalUser = (id) => {
     getCommentByUser(id);
     handleClickOpenUserDial();
@@ -661,7 +446,11 @@ const CommentsHome = () => {
           <IconButton style={{ color: "#026aa4", marginLeft: 60 }}>
             <EditIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.commentNum}>
+          <Typography
+            style={{ color: "#026aa4", marginLeft: 30 }}
+            variant="h6"
+            className={classes.commentNum}
+          >
             Comments Section : Feel Free !
           </Typography>
         </Toolbar>
@@ -680,16 +469,17 @@ const CommentsHome = () => {
           <Grid item xs={10}>
             <TextField
               name="topic"
-              //required
+              required
               id="topic"
               label="Click here to add a Topic"
               variant="outlined"
-              style={{ width: 950 }}
+              style={{ width: 950, marginLeft: 9 }}
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
             />
           </Grid>
         </div>
+
         <div>
           <React.Fragment>
             <Box
@@ -702,7 +492,7 @@ const CommentsHome = () => {
               <Grid container spacing={3}>
                 <Grid item xs={10} style={{ marginLeft: "90px" }}>
                   <TextField
-                    //required
+                    required
                     label="Express your thoughts !"
                     variant="outlined"
                     multiline
@@ -822,7 +612,7 @@ const CommentsHome = () => {
                   />
                   &nbsp;&nbsp;
                   <MenuItem
-                    style={{ fontSize: 20, marginTop: -35 }}
+                    style={{ fontSize: 20, marginTop: -35 , marginLeft: 50 }}
                     onClick={handleClickOpenDayDial}
                   >
                     Today's Comments
@@ -836,7 +626,7 @@ const CommentsHome = () => {
                   />
                   &nbsp;&nbsp;
                   <MenuItem
-                    style={{ fontSize: 20, marginTop: -35 }}
+                    style={{ fontSize: 20, marginTop: -35 , marginLeft: 50 }}
                     onClick={handleClickOpenWeekDial}
                   >
                     Last Week Comments
@@ -851,7 +641,7 @@ const CommentsHome = () => {
                   />
                   &nbsp;&nbsp;
                   <MenuItem
-                    style={{ fontSize: 20, marginTop: -35 }}
+                    style={{ fontSize: 20, marginTop: -35, marginLeft: 50 }}
                     onClick={handleClickOpen15DaysDial}
                   >
                     Last 15 Days Comments
@@ -866,7 +656,7 @@ const CommentsHome = () => {
                   />
                   &nbsp;&nbsp;
                   <MenuItem
-                    style={{ fontSize: 20, marginTop: -35 }}
+                    style={{ fontSize: 20, marginTop: -35, marginLeft: 50 }}
                     onClick={handleClickOpenMonthDial}
                   >
                     Last Month Comments
@@ -881,7 +671,7 @@ const CommentsHome = () => {
                   />
                   &nbsp;&nbsp;
                   <MenuItem
-                    style={{ fontSize: 20, marginTop: -35 }}
+                    style={{ fontSize: 20, marginTop: -35 , marginLeft: 50 }}
                     onClick={handleClickOpenYearDial}
                   >
                     Last Year Comments
@@ -1970,61 +1760,14 @@ const CommentsHome = () => {
                               >
                                 <DeleteIcon style={{ color: "#026aa4" }} />
                               </Button>
-                              <Button
-                                icon
-                                //className={classes.Delete}
-                                //onClick={
-                                onClick={() => handleClickOpen(data._id)}
-                              >
-                                <BiEdit
-                                  style={{
-                                    color: "#026aa4",
-                                    marginLeft: -220,
-                                    fontSize: 24,
-                                  }}
-                                />
-                              </Button>
+                           
                             </ListItem>
                           </Grid>
                         </Paper>
+                        <br/>
 
-                        <Tooltip
-                          title={
-                            <Typography style={{ fontSize: 12 }}>
-                              Like
-                            </Typography>
-                          }
-                        >
-                          <Button icon>
-                            <ThumbUpIcon
-                              style={{
-                                color: "009933",
-                                marginTop: 45,
-                                marginLeft: 80,
-                                fontSize: 22,
-                              }}
-                            />
-                          </Button>
-                        </Tooltip>
-                        <Tooltip
-                          title={
-                            <Typography style={{ fontSize: 12 }}>
-                              Dislike
-                            </Typography>
-                          }
-                        >
-                          <Button icon>
-                            <ThumbDownAltIcon
-                              style={{
-                                color: "e22400",
-                                marginTop: 45,
-                                marginLeft: 50,
-
-                                fontSize: 22,
-                              }}
-                            />
-                          </Button>
-                        </Tooltip>
+                       <br/>
+                       
                       </React.Fragment>
                     );
                   })
@@ -2069,12 +1812,12 @@ const CommentsHome = () => {
                                       width: 20,
                                       marginTop: -25,
                                       color: "#026aa4",
-                                      marginLeft: 13,
+                                      marginLeft: 40,
                                     }}
                                   />
                                   <h6>
                                     <div
-                                      style={{ marginLeft: 50, marginTop: -25 }}
+                                      style={{ marginLeft: 70, marginTop: -25 }}
                                     >
                                       {moment(data.createdAt).format(
                                         "MMMM D, Y, HH:mm"
@@ -2093,223 +1836,12 @@ const CommentsHome = () => {
                                 >
                                   <DeleteIcon style={{ color: "#026aa4" }} />
                                 </Button>
-                                <Button
-                                  icon
-                                  //className={classes.Delete}
-                                  //onClick={
-                                  onClick={() => handleClickOpen(data._id)}
-                                >
-                                  <BiEdit
-                                    style={{
-                                      color: "#026aa4",
-                                      marginLeft: -220,
-                                      fontSize: 24,
-                                    }}
-                                  />
-                                </Button>
-                                <Dialog open={open2} onClose={handleClose2}>
-                                  <DialogTitle>
-                                    Update Your Comment :
-                                  </DialogTitle>
-
-                                  <DialogContent>
-                                    <Box
-                                      component="form"
-                                      sx={{ mt: 0 }}
-                                      style={{ width: 550, height: 300 }}
-                                      onSubmit={handleUpdateComment}
-                                    >
-                                      <div style={{ display: "flex" }}>
-                                        <Avatar
-                                          className={classes.large}
-                                          style={{
-                                            color: "#026aa4",
-                                            marginTop: 15,
-                                          }}
-                                        />
-                                        <Grid item xs={10}>
-                                          <TextField
-                                            required
-                                            label="Update Topic"
-                                            variant="outlined"
-                                            style={{
-                                              width: 450,
-                                              marginTop: 15,
-                                            }}
-                                            value={topic}
-                                            onChange={(e) =>
-                                              setTopic(e.target.value)
-                                            }
-                                          />
-                                        </Grid>
-                                      </div>
-                                      <Grid
-                                        item
-                                        xs={10}
-                                        style={{ marginLeft: "90px" }}
-                                      >
-                                        <TextField
-                                          required
-                                          label="Update Content !"
-                                          variant="outlined"
-                                          multiline
-                                          rows={2.5}
-                                          style={{
-                                            width: 450,
-                                            marginLeft: -10,
-                                            marginTop: 23,
-                                          }}
-                                          value={content}
-                                          onChange={(e) =>
-                                            setContent(e.target.value)
-                                          }
-                                        />
-                                      </Grid>
-                                      <Grid item sm={5}>
-                                        <Button
-                                          style={{
-                                            marginTop: 45,
-                                            marginLeft: 50,
-                                            width: 170,
-                                          }}
-                                          type="submit"
-                                          variant="outlined"
-                                          sx={{ mt: 2, mb: 2 }}
-                                          //onClick={handleClose2}
-                                        >
-                                          Save and update
-                                        </Button>
-                                      </Grid>
-                                      <Grid item sm={5}>
-                                        <Button
-                                          style={{
-                                            marginTop: -43,
-                                            marginLeft: 240,
-                                            width: 170,
-                                          }}
-                                          type="reset"
-                                          variant="outlined"
-                                          //fullWidth
-                                          sx={{ mt: 2, mb: 2 }}
-                                          onClick={handleClose2}
-                                        >
-                                          Cancel
-                                        </Button>
-                                      </Grid>
-                                    </Box>
-                                  </DialogContent>
-                                </Dialog>
                               </ListItem>
                             </Grid>
                           </Paper>
 
-                          <div>
-                            <Tooltip
-                              title={
-                                <Typography style={{ fontSize: 12 }}>
-                                  Like
-                                </Typography>
-                              }
-                            >
-                              <Button
-                                icon
-                                onClick={() => {
-                                  handleLikes(data._id);
-                                }}
-                              >
-                                {LikeAction === "liked" ? (
-                                  <ThumbUpIcon
-                                    style={{
-                                      color: "009933",
-                                      marginTop: 45,
-                                      marginLeft: 80,
-                                      fontSize: 22,
-                                    }}
-                                  />
-                                ) : (
-                                  <ThumbUpOutlinedIcon
-                                    style={{
-                                      color: "009933",
-                                      marginTop: 45,
-                                      marginLeft: 80,
-                                      fontSize: 22,
-                                    }}
-                                  />
-                                )}
-                                {/*<ThumbUpOutlinedIcon
-                                  onClick={() => {
-                                    handleLikes(data._id);
-                                  }}
-                                  style={{
-                                    color: "009933",
-                                    marginTop: 45,
-                                    marginLeft: 80,
-                                    fontSize: 22,
-                                  }}
-                                />*/}
-                              </Button>
-                            </Tooltip>
-
-                            <Tooltip
-                              title={
-                                <Typography style={{ fontSize: 12 }}>
-                                  Dislike
-                                </Typography>
-                              }
-                            >
-                              <Button icon>
-                                {disliked ? (
-                                  <ThumbDownAltIcon
-                                    style={{
-                                      color: "e22400",
-                                      marginTop: 45,
-                                      marginLeft: 50,
-
-                                      fontSize: 22,
-                                    }}
-                                  />
-                                ) : (
-                                  <ThumbDownAltOutlinedIcon
-                                    onClick={() => {
-                                      handleDislikes(data._id);
-                                    }}
-                                    style={{
-                                      color: "e22400",
-                                      marginTop: 45,
-                                      marginLeft: 50,
-
-                                      fontSize: 22,
-                                    }}
-                                  />
-                                )}
-                              </Button>
-                            </Tooltip>
-                            <Tooltip
-                              title={
-                                <Typography style={{ fontSize: 12 }}>
-                                  Reply
-                                </Typography>
-                              }
-                            >
-                              <Button icon>
-                                <ReplyIcon
-                                  onClick={() => handleClickReply(data._id)}
-                                  style={{
-                                    color: "#4169E1",
-                                    marginTop: 45,
-                                    marginLeft: 33,
-
-                                    fontSize: 25,
-                                  }}
-                                />
-                              </Button>
-                            </Tooltip>
-                            {openReply ? (
-                              <React.Fragment>
-                                <Replies />
-                              </React.Fragment>
-                            ) : null}
-                          </div>
+                          <br />
+                          <br />
                         </React.Fragment>
                       </>
                     )
