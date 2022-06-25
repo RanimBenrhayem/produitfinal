@@ -32,11 +32,26 @@ export default function ChangePassword() {
         },
       });
       setOldPassword(oldPassword); 
-      if (password.length > 5 && cPassword.length>5) {
+      if (password.length > 5 && cPassword.length>5)  {
         if (password === cPassword) {
         handleChangePassword(e, userId);
         setCPassword("");
-      } } else {
+      } else{
+        const Toast2 = Swal.mixin({
+          toast: true,
+          position: "bottom-right",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        Toast2.fire({
+          icon: "error",
+          title: "Oops...",
+          text: ` The new password and the re-entred one do not match  `,
+        });
+
+      }
+    } else {
         const Toast = Swal.mixin({
           toast: true,
           position: "bottom-right",
@@ -47,9 +62,9 @@ export default function ChangePassword() {
         Toast.fire({
           icon: "error",
           title: "Oops...",
-          text: ` The new password and the re-entred one do not match or length password must be >5 `,
+          text: `length password must be >5 `,
         });
-        setOldPassword("");
+       
       }
     } catch (error) {
       console.log(error);

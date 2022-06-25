@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import Swal from "sweetalert2";
 import axios from "axios"
+import InfoIcon from "@mui/icons-material/Info";
+import { Typography,Tooltip } from "@material-ui/core";
 
 
 export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,attribut1,attribut2,fileId,typeOfDashboard}){
@@ -8,7 +10,6 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
     const [choice,setChoice] = useState("")
     const [operator,setOperator] = useState("")
     const [val,setVal] = useState("")
-    const [confirmed,setConfirmed] = useState(false)
     const [xAlertResult , setXAlertResult] = useState([])
     const [yAlertResult, setYAlertResult] = useState([])
     const saveButtonText = saved.length>0? "save alert" :"save chart & alert"
@@ -87,10 +88,10 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
                 })
                 await axios({
                     method: "post",
-                    url : `/chart/alert/joined/add/${response.data._id}`,
+                    url : `/chart/alert/joined/add/${response.data.result._id}`,
                     data : {value:val,operator,attribute:choice}
                 })
-                setSaved(response.data._id)
+                setSaved(response.data.result._id)
 
             }
 
@@ -101,10 +102,24 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
 
     return(
         <>
+        <Tooltip
+                  title={
+                    <Typography style={{ fontSize: 15 }}>
+                     1/choose a quantitative attribute <br/>
+                     2/select an operator <br/>
+                     3/write the condition 
+
+                    </Typography>
+                  }
+                >
+                  <InfoIcon
+                    style={{ color: "grey", marginLeft: -480, marginBottom: -3 }}
+                  />
+                </Tooltip>
 
             {attributes.length > 0 && (
                 <>
-                    <select className="select9"
+                    <select className="select0"
                             value={choice}
                             onChange={(e) => setChoice(e.target.value)}
                     >
@@ -119,10 +134,10 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
                             value={operator}
                             onChange={(e) => setOperator(e.target.value)}
                     >
-                        <option value={""}>_please select an operator_</option>
+                        <option value={""}>please select an operator</option>
                         <option value={"="}>=</option>
-                        <option value={">"}> > </option>
-                        <option value={">="}> >=</option>
+                        <option value={">"}>{">"} </option>
+                        <option value={">="}> {">="}</option>
                         <option value={"<"}> {"<"}  </option>
                         <option value={"<="}>{"<="}</option>
 

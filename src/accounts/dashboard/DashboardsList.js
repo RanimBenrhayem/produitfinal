@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import LayoutHome from "../layout/LayoutHome";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import {
     AiFillEye,
     AiFillEyeInvisible,
@@ -35,15 +36,46 @@ export default function RecomHome() {
 
     const handleDelete= async (id)=>{
         try{
-            const response = await axios({
-                method:"delete",
-                url:`http://localhost:8080/chart/delete/${id}`
+            Swal.fire({
+              title: "Are you sure?",
+              text: "You won't be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Delete it!",
+            }).then((result) => {
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-right",
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true,
+              });
+              if(result.isConfirmed) {
+                axios({
+                  method:'delete',
+                   url:`http://localhost:8080/chart/delete/${id}`
+                }).then(response=>{
+      
+      
+                  Toast.fire({
+                    icon: "success",
+                    title: response.data,
+                  });
+                  setDeleted(!deleted)
+      
+                })
+              }
             })
-            console.log(response.data)
-            setDeleted(!deleted)
-        }catch (e) {
+      
+          }catch (e) {
             console.log(e)
-        }
+      
+          }
+              
+           
+         
     }
   return (
     <div>

@@ -5,6 +5,26 @@ import axios from "axios";
 import ReactToPrint from "react-to-print";
 import {Bar, Bubble, Pie, PolarArea} from "react-chartjs-2";
 import JoinedChartAlert from "../alerts/JoinedChartAlert";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+
 
 
 
@@ -70,11 +90,10 @@ const JoinedChart = ()=> {
                 method : "get" ,
                 url : `/uploads/files/joined/getbyid/${e.target.value}`
             });
-            console.log(response)
 
                 const keys = Object.keys(response.data[0])
                 const filteredKeys = keys.filter((element) => element && element.length>0)
-            setHeaders1(filteredKeys)
+               setHeaders1(filteredKeys)
                 setHeaders2(filteredKeys)
 
         }
@@ -90,10 +109,9 @@ const JoinedChart = ()=> {
                     data : {xaxis:attribut1 , yaxis : attribut2}
                 })
                 const {xaxis,yaxis,labels,returnedData} = response.data
-                console.log(response.data)
+                
                 const values = returnedData.map((element)=>parseFloat(element))
-                console.log(labels)
-                console.log(values)
+                
                 setAlertLabels(labels)
                 setAlertData(returnedData)
                 setAlertAttributes([xaxis,yaxis])
@@ -141,7 +159,7 @@ const JoinedChart = ()=> {
                 })
 
 
-                setSaved(response.data._id)
+                setSaved(response.data.result._id)
                  const Toast = Swal.mixin({
                   toast: true,
                   position: "bottom-right",
@@ -152,7 +170,7 @@ const JoinedChart = ()=> {
           
                 Toast.fire({
                   icon: "success",
-                  title: 'chart Saved , You can chek your dashboards List',
+                  title: response.data.msg,
                 });
             }
 
@@ -172,132 +190,149 @@ const JoinedChart = ()=> {
         link.href = ref.current.toBase64Image()
         link.click();
     },[])
+
+   
+
+    function Chart(e) {
+      if (e.value === "bar") {
+        return (
+          <div style={{height : '450px' , width : '750px',marginLeft : '20px',marginTop:'-100px'}}>
+            
+            {show && <Bar   ref={ref} options={options} data={graph} />}
+          </div>
+        );
+      } else if (e.value === "pie") {
+        return (
+          <div style={{height : '450px' , width : '450px',marginLeft : '20px',marginTop:'-100px'}}>
+            {show && <Pie ref={ref} options={options} data={graph}  />}
+          </div>
+        );
+      } else if (e.value === "bubble") {
+        return (
+          <div style={{height : '450px' , width : '750px',marginLeft : '20px',marginTop:'-100px'}}>
+            {show && (
+              <Bubble ref={ref} options={options} data={graph}  />
+            )}
+            
+          </div>
+        );
+      } else if (e.value === "polararea") {
+          return (
+            <div style={{height : '450px' , width : '450px',marginLeft : '20px',marginTop:'-100px'}}>
+              {show && (
+                <PolarArea ref={ref} options={options} data={graph}  />
+              )}
+      </div>
+          )
+      
+    }}
+
+    const componentRef = React.useRef()
     return (
-        <div  style={{ marginTop: -200, marginLeft: -300 }}>
-            <div>
-            <select value={fileToDraw} onChange={handleFileOptions} className="select1">
-                <option value={""}>__please choose a file__</option>
-                {files.map((element) => {
-                    return (
-                        <option value={element._id}>
-                            {element.metadata.originalFileName}
-                        </option>
-                    );
-                })}
+        <React.Fragment>
+         
+    
+      <div
+       style={{ marginTop: -200, marginLeft: -300 }}
+      
+      >
+        <select value={fileToDraw} onChange={handleFileOptions} className="select1">
+          <option value={""}>__please choose a file__</option>
+          {files.map((element) => {
+            return (
+              <option value={element._id}>
+                {element.metadata.originalFileName}
+              </option>
+            );
+          })}
+        </select>
+        <div >
+          {headers1.length > 0 && (
+            <select className="select2"
+              value={attribut1}
+              onChange={(e) => setAttribut1(e.target.value)}
+            >
+              <option value={""}>please select an attribute</option>
+              {headers1.map((element, index) => {
+                return <option value={element}>{element}</option>;
+              })}
             </select>
-            </div>
+          )}
+        </div>
+        <div >
+          {headers1.length > 0 && (
+            <select className="select3"
+              value={attribut2}
+              onChange={(e) => setAttribut2(e.target.value)}
+            >
+              <option value={""}>please select an attribute</option>
+              {headers1.map((element, index) => {
+             
 
-                {headers1.length > 0 && (
-                    <>
-                    <div>
-                    <select className="select2"
-                            value={attribut1}
-                            onChange={(e) => setAttribut1(e.target.value)}
-                    >
-                        <option value={""}>_please select an attribut_</option>
-                        {headers1.map((element, index) => {
-                            let subElt = element.substring(2, element.length - 2);
-                            if (index === 0) {
-                                subElt = subElt.substring(1);
-                            } else if (index === headers1.length - 1) {
-                                subElt = subElt.substring(0, subElt.length - 2);
-                            }
-
-                            return <option value={element}>{element}</option>;
-                        })}
-                    </select>
-                    </div>
-                        <div>
-                            <select className="select3"
-                                    value={attribut2}
-                                    onChange={(e) => setAttribut2(e.target.value)}
-                            >
-                                <option value={""}>_please select an attribut_</option>
-                                {headers1.map((element, index) => {
-
-
-                                    return <option value={element}>{element}</option>;
-                                })}
-                            </select>
-                        </div>
-                        <div>
-                            <select
-                                className="select8"
-                                defaultValue="Select Chart"
-                                onChange={(e) => setChart(e.target.value)}
-                            >
-                                <option value="type">choose type of chart</option>
-                                <option value="bar">Bar Chart</option>
-                                <option value="pie">pie Chart</option>
-                                <option value="bubble">Bubble Chart</option>
-                                <option value="polararea">PolarArea Chart</option>
-                            </select>
-                        </div>
-
-                        <button className="buttonShow" onClick={handleProcess} >
-                            View
-                        </button>
-                        <button className="buttonShow"  onClick={saveInfoDashboard}>
-                            Save
-                        </button>
-                        <button  className="buttondownloadasimage" onClick={downloadImage}>download as image</button>
-                    </>
-
-                )}
-
-            <div>
-                {
-                    show && (
-                        <>
-                            { chart ==="bar" && (
-                                <div style={{height : '720px' , width : '750px',marginLeft : '-70px'}}>
-
-                                    <Bar  ref={ref} options={options} data={graph} />
-                                    <button   onClick={downloadImage}>download as image</button>
-                                </div>
-                            )}
-                            { chart ==="polararea" && (
-                                <div style={{height : '720px' , width : '750px',marginLeft : '-70px',marginTop:'-120px'}}>
-
-                                    {<PolarArea  ref={ref} options={options} data={graph} />}
-                                    <button  onClick={downloadImage}>download as image</button>
-                                </div>
-                            )}
-                            { chart ==="pie" && (
-                                <div style={{height : '720px' , width : '750px',marginLeft : '-70px',marginTop:'-120px'}}>
-
-                                    {<Pie  ref={ref} options={options} data={graph} />}
-                                    <button  onClick={downloadImage}>download as image</button>
-                                </div>
-                            )}
-                            { chart ==="bubble" && (
-                                <div style={{height : '720px' , width : '750px',marginLeft : '-70px',marginTop:'-120px'}}>
-
-                                    {<Bubble  ref={ref} options={options} data={graph} />}
-                                    <button  onClick={downloadImage}>download as image</button>
-                                </div>
-
-                            )}
-                            <div >
-                            <JoinedChartAlert  attributes={alertAttributes}
-                                               labels={alertLabels}
-                                               data={alertData}
-                                               saved={saved}
-                                               setSaved={setSaved}
-                                               attribut1={attribut1}
-                                               attribut2={attribut2}
-                                               fileId={fileToDraw}
-                                               typeOfDashboard={chart}
-                            />
-                            </div>
-                        </>
-                    )
-                }
+                return <option value={element}>{element}</option>;
+              })}
+            </select>
+          )}
+            {headers1.length > 0 && (
+                <>
+          <button className="buttonShow" onClick={handleProcess} >
+           View
+          </button>
+           <button className="buttonShow"  onClick={saveInfoDashboard}>
+           Save
+          </button>
+          <button  className="buttondownloadasimage" onClick={downloadImage}>download as image</button>
+          <div style={{ marginLeft: 100 }}>
+        <ReactToPrint
+          trigger={() => <button className="printButton">Print this out!</button>}
+          content={() => componentRef.current}
+        />
+        
 
 
-            </div>
+      </div>
+          </> )}
 
         </div>
+        <div>
+          {headers1.length > 0 && (
+            <>
+              <select 
+               className="select4"
+                defaultValue="Select Chart"
+                onChange={(e) => setChart(e.target.value)}
+              >
+                   <option value="type">choose type of chart</option>
+                <option value="bar">Bar Chart</option>
+                <option value="pie">pie Chart</option>
+                <option value="bubble">Bubble Chart</option>
+                <option value="polararea">PolarArea Chart</option>
+              </select>
+              <div ref={componentRef}  > 
+              <h1 className="selectechart">Selected Chart: {chart}</h1>
+              <Chart   value={chart} /></div>
+             
+            </>
+          )}
+        </div>
+      </div>
+
+        <div>
+            { show && (<JoinedChartAlert
+                     attributes={alertAttributes}
+                     labels={alertLabels}
+                     data={alertData}
+                     saved={saved}
+                     setSaved={setSaved}
+                     attribut1={attribut1}
+                     attribut2={attribut2}
+                     fileId={fileToDraw}
+                     typeOfDashboard={chart}
+  />
+  )}
+        </div>
+        
+    </React.Fragment>
     )
 }
 

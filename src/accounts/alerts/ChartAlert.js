@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import Swal from "sweetalert2";
 import axios from "axios"
-
+import InfoIcon from "@mui/icons-material/Info";
+import { Typography,Tooltip } from "@material-ui/core";
 
 export default function ChartAlert({attributes,labels,data,saved,setSaved,attribut1,attribut2,fileId,typeOfDashboard}){
 
@@ -106,9 +107,10 @@ const handleSaveAlert =async ()=> {
                         url : `http://localhost:8080/chart/save/database`,
                         data : {attribut1 ,  attribut2,fileId : `${fileId}` , typeOfDashboard , isJoined:false},
                      
-                   
+                        
                    
                     })
+                   
                     const Toast2 = Swal.mixin({
                         toast: true,
                         position: "bottom-right",
@@ -119,14 +121,14 @@ const handleSaveAlert =async ()=> {
                 
                       Toast2.fire({
                         icon: "success",
-                        title: 'saved',
+                        title: response.data.msg,
                       });
                 await axios({
                     method: "post",
-                    url : `/chart/alert/simple/add/${response.data._id}`,
+                    url : `/chart/alert/simple/add/${response.data.result._id}`,
                     data : {value:val,operator,attribute:choice}
                 })
-                    setSaved(response.data._id)
+                    setSaved(response.data.result._id)
                     const Toast = Swal.mixin({
                         toast: true,
                         position: "bottom-right",
@@ -164,6 +166,20 @@ const handleSaveAlert =async ()=> {
 
     return(
         <>
+        <Tooltip
+                  title={
+                    <Typography style={{ fontSize: 15 }}>
+                     1/choose a quantitative attribute <br/>
+                     2/select an operator <br/>
+                     3/write the condition 
+
+                    </Typography>
+                  }
+                >
+                  <InfoIcon
+                    style={{ color: "grey", marginLeft: -480, marginBottom: -3 }}
+                  />
+                </Tooltip>
 
             {attributes.length > 0 && (
                 <div className="space">

@@ -34,7 +34,7 @@ export default function  JoinedDashboard() {
                 
                    Add New Chart
                   </Button>
-            <h2 className="titlechart">Create your own Dashboards</h2>
+            <h2 className="titlechart">Create your own charts</h2>
             <Paper  sx={{ padding: "2em 50em", marginTop:8,
                 height: 700, width : 1000 }}elevation={5}>
 

@@ -14,7 +14,6 @@ import {
   Button,
   Tooltip,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import LayoutHome from "../layout/LayoutHome";
@@ -73,7 +72,15 @@ export default function Profil() {
       });
     } catch (error) {
       console.log(error);
-      Swal.fire({
+      const Toast2 = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
+
+      Toast2.fire({
         icon: "error",
         title: "Oops...",
         text: ` ${error.response.data} `,

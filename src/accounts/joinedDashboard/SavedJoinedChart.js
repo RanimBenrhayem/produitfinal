@@ -94,28 +94,28 @@ const SavedJoinedChart = ()=>{
                                 <div  style={{height : '720px' , width : '750px',marginLeft : '-70px'}}>
 
                                     <Bar  ref={ref} options={options} data={graph} />
-                                    <button   onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage"  onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
                             { chartType ==="polararea" && (
                                 <div style={{height : '520px' , width : '550px',marginLeft : '-70px'}}>
 
                                     {<PolarArea  ref={ref} options={options} data={graph} />}
-                                    <button  onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage" onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
                             { chartType ==="pie" && (
                                 <div style={{height : '520px' , width : '550px',marginLeft : '-70px'}}>
 
                                     {<Pie  ref={ref} options={options} data={graph} />}
-                                    <button  onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage" onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
                             { chartType ==="bubble" && (
                                 <div style={{height : '520px' , width : '550px',marginLeft : '-70px'}}>
 
                                     {<Bubble  ref={ref} options={options} data={graph} />}
-                                    <button  onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage"  onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
 

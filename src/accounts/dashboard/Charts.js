@@ -2,6 +2,8 @@ import React, {useEffect, useState,Component} from "react";
 import { useCallback, useRef } from "react";
 import {downloadFiles, getUserSimpleFiles} from "../../services/axios";
 import Swal from "sweetalert2";
+import InfoIcon from "@mui/icons-material/Info";
+import { Typography,   } from "@material-ui/core";
 import 'chart.js/auto'
 import {
     Chart as ChartJS,
@@ -196,7 +198,7 @@ const options = {
   function Chart(e) {
     if (e.value === "bar") {
       return (
-        <div style={{height : '720px' , width : '750px',marginLeft : '-70px',marginTop:'-120px'}}>
+        <div style={{height : '450px' , width : '750px',marginLeft : '20px',marginTop:'-100px'}}>
           
           {show && <Bar   ref={ref} options={options} data={graph} />}
         </div>
@@ -209,7 +211,7 @@ const options = {
       );
     } else if (e.value === "bubble") {
       return (
-        <div style={{height : '620px' , width : '650px',marginLeft : '-70px',marginTop:'-120px'}}>
+        <div style={{height : '450px' , width : '750px',marginLeft : '20px',marginTop:'-100px'}}>
           {show && (
             <Bubble ref={ref} options={options} data={graph}  />
           )}
@@ -229,12 +231,12 @@ const options = {
  const componentRef = React.useRef()
   return (
     <React.Fragment>
-         
-    
+
       <div
        style={{ marginTop: -200, marginLeft: -300 }}
       
       >
+        
         <select value={fileToDraw} onChange={handleFileOptions} className="select1">
           <option value={""}>__please choose a file__</option>
           {files.map((element) => {
@@ -286,8 +288,6 @@ const options = {
           trigger={() => <button className="printButton">Print this out!</button>}
           content={() => componentRef.current}
         />
-        
-
 
       </div>
           </> )}

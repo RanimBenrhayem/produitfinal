@@ -8,7 +8,7 @@
     width: 90%;
     text-align: center;
     margin : auto;
-    transform: translateY(-19%);
+   
 
    
   }
@@ -28,7 +28,7 @@
   
     width: 60%;
     text-align: center;
-    transform: translateY(20%);
+   
    
   }
   thead{
@@ -86,7 +86,7 @@
     color: rgb(255, 255, 255);
   width: 60%;
  margin:auto;
-    transform: translateY(30%);
+    transform: translateY(10%);
     
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background: linear-gradient(to right, rgba(198, 204, 236, 0.918), rgba(11, 68, 143, 0.856));
@@ -379,6 +379,25 @@
    text-align: center;
    transform: translate(-398%,784%);
   }
+  .buttondownloadasimage2{
+  
+    color: rgb(255, 255, 255);
+    background-color: rgb(55, 73, 236);
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+   height:40px;
+   width: 100px;
+   margin: 2px;
+   text-align: center;
+   transform: translate(50%,50%);
+  }
+
+
+
+
+
+
   .printButton{
     color: rgb(255, 255, 255);
     background-color: rgb(55, 73, 236);
@@ -431,7 +450,7 @@
   transform: translate(-500%,800%);}
    
   .titlechart{
-    transform: translate(32%,50%);
+    transform: translate(35%,50%);
     color: #408fcf;
     font-size: 40px;
   }
@@ -473,8 +492,8 @@
   -webkit-transition: ease-out 0.4s;
   -moz-transition: ease-out 0.4s;
   transition: ease-out 0.4s;
-  margin: 5px;
-  transform: translate(-670%,-700%);
+  
+  transform: translate(-850%,230%);
   }
    .savealerte{
     color: rgb(255, 255, 255);
@@ -512,7 +531,7 @@
     -moz-transition: ease-out 0.4s;
     transition: ease-out 0.4s;
     margin: 5px;
-    transform: translate(-300%,-825%);
+    transform: translate(-730%,120%);
    }
 .select6{
   background-color: #9d9d9eb6;
@@ -566,7 +585,7 @@
  
 }
 .input2{
-  transform: translate(-175%,-1400%);
+  transform: translate(-345%,300%);
   height: 25px;
   width: 200px;
  
@@ -589,7 +608,26 @@
   font-size: 15px;
   border-radius: 5px;
   margin:10px;
-  transform: translate(220%,550%);
+  transform: translate(225%,550%);
+}
+.select0{
+  background-color: #9d9d9eb6;
+  color: white;
+  padding: 5px;
+  width:200px;
+  border: none;
+  font-size: 15px;
+  border-radius: 5px;
+  margin:10px;
+  background-color: #9d9d9eb6;
+  color: white;
+  padding: 5px;
+  width:200px;
+  border: none;
+  font-size: 15px;
+  border-radius: 5px;
+  margin:10px;
+  transform: translate(-120%);
 }
 
 .select14{
@@ -609,7 +647,7 @@
   font-size: 15px;
   border-radius: 5px;
   margin:10px;
-  transform: translate(220%,550%);
+  transform: translate(225%,550%);
 }
 
 
@@ -631,7 +669,7 @@
   font-size: 15px;
   border-radius: 5px;
   margin:10px;
-  transform: translate(-180%,-1200%);
+  transform: translate(-230%,180%);
 }
 .chartssimple{
   transform: translate(16%,-10%);

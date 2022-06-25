@@ -27,6 +27,13 @@ import Switch from "@material-ui/core/Switch";
 import { BsInfoLg } from "react-icons/bs";
 import { FcSearch } from "react-icons/fc";
 import { GoSettings } from "react-icons/go";
+import {useState} from "react";
+import Swal from "sweetalert2";
+import {
+    AiFillEye,
+    AiFillEyeInvisible,
+    AiFillCloseCircle,
+  } from "react-icons/ai";
 
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -87,6 +94,7 @@ function paginator(items, current_page, per_page_items) {
 }
 export default function WarningJoined() {
     const [value, setValue] = React.useState(0);
+    const [deleted,setDeleted]=useState(false)
     let navigate = useNavigate()
 
     const handleChange1 = (event, newValue) => {
@@ -124,7 +132,52 @@ export default function WarningJoined() {
             .catch(function (error) {
                 console.log(error);
             });
-    } , []);
+    } , [deleted]);
+    const handleDelete =async (fileId)=>{
+        try{
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Delete it!",
+          }).then((result) => {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "bottom-right",
+              showConfirmButton: false,
+              timer: 1000,
+              timerProgressBar: true,
+            });
+            if(result.isConfirmed) {
+              axios({
+                method:'delete',
+                url : `http://localhost:8080/chart/alert/delete/${fileId}`
+              }).then(response=>{
+    
+    
+                Toast.fire({
+                  icon: "success",
+                  title: response.data,
+                });
+                setDeleted(!deleted)
+    
+              })
+            }else {
+              Toast.fire({
+                icon: "error",
+                title: "Could not delete this file.",
+              });
+            }
+          })
+    
+        }catch (e) {
+          console.log(e)
+    
+        }
+      }
 
     const count = Math.ceil(usersCollection.length / 1);
     const [page, setPage] = React.useState(1);
@@ -192,15 +245,13 @@ export default function WarningJoined() {
                     >
                         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
                         <TableHead
-                style={{ backgroundColor: "#e53935", borderColor: "#e53935" }}
+                style={{ backgroundColor: "#e53935", borderColor: "#e53935"  }}
               >
                 <TableRow>
                   <TableCell
                     style={{ fontWeight: "bold", color: "white", fontSize: 15}}
                   >
-                   <br/> 
-                   <br/> 
-                   <br/> 
+                  
                     Alerts Details
                   </TableCell>
                 </TableRow>
@@ -274,11 +325,11 @@ export default function WarningJoined() {
                                                                     {data.alert[0].attribute} {data.alert[0].operator} {data.alert[0].value}
                                                                 </TableCell>
                                                                 <TableCell component="th" scope="row">
-                                                                    <div onClick={()=>navigate(`/savedJoinedDashboard/${data._id}`)}>......</div>
-                                                                </TableCell>
-                                                                <TableCell component="th" scope="row">
-                                                                    delete
-                                                                </TableCell>
+                                    <div className="showeyes" onClick={()=>navigate(`/savedDashboard/${data._id}`)}>  <AiFillEye /></div>
+                                  </TableCell>
+                                  <TableCell component="th" scope="row">
+                                    <div className="buttonpoubelle" onClick={()=>handleDelete(data._id)}>    <AiFillCloseCircle /></div>
+                                  </TableCell>
                                                             </TableRow>
                                                         );
                                                     })
@@ -294,11 +345,11 @@ export default function WarningJoined() {
                                                                         {data.alert[0].attribute} {data.alert[0].operator} {data.alert[0].value}
                                                                     </TableCell>
                                                                     <TableCell component="th" scope="row">
-                                                                        <div onClick={()=>navigate(`/savedJoinedDashboard/${data._id}`)}>......</div>
-                                                                    </TableCell>
-                                                                    <TableCell component="th" scope="row">
-                                                                        delete
-                                                                    </TableCell>
+                                    <div className="showeyes" onClick={()=>navigate(`/savedDashboard/${data._id}`)}>  <AiFillEye /></div>
+                                  </TableCell>
+                                  <TableCell component="th" scope="row">
+                                    <div className="buttonpoubelle" onClick={()=>handleDelete(data._id)}>    <AiFillCloseCircle /></div>
+                                  </TableCell>
                                                                 </TableRow>
                                                             );
                                                         }

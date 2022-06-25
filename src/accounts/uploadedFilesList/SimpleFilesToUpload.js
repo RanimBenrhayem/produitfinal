@@ -83,7 +83,7 @@ export const UserSimpleFiles = () => {
         {files.length > 0 && (
           <>
             <h2 className="gradient">Your Files</h2>
-            <br />
+            
             <table>
               <tr>
                 <th> Name</th>

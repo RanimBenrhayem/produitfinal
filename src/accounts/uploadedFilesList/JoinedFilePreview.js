@@ -12,16 +12,20 @@ import {
 } from "react-icons/ai";
 
 import {GrDocumentCsv}from "react-icons/gr"
+import {RiDownloadCloud2Fill}from "react-icons/ri"
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { CSVLink } from "react-csv";
+import axios from "axios";
 
 
 
 function JoinedFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
   const [showFile, setShowFile] = useState(false);
   const [fileInfo, setFileInfo] = useState({});
+  const [content,setContent] =useState("")
+  const [loaded,setLoaded] =useState(false)
 
   useEffect(() => {
     async function fetchFileById() {
@@ -97,7 +101,18 @@ function JoinedFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
       }
     });
   };
- 
+  const getFileContent =()=>{
+    if(!loaded) {
+
+  axios.get(`/uploads/files/joined/getbyid/${id}`)
+      .then((res)=>{
+        setContent(res.data);
+        setLoaded(true)
+      }).catch(()=>{
+        setLoaded(false)
+  })
+  }
+    }
 
   return (
     <>
@@ -117,9 +132,7 @@ function JoinedFilePreview({ id, handleShow, isDeleted, setIsDeleted }) {
               <AiFillCloseCircle />
             </button>
           </td>
-          <td> <button className='csvbutton' >
-            <GrDocumentCsv/>
-            </button> </td>
+          <td>{!loaded ? <button onClick={getFileContent} className='csvbutton'>< RiDownloadCloud2Fill/></button>:<CSVLink data={content} filename={fileInfo.metadata.originalFileName} className='csvbutton'><GrDocumentCsv/></CSVLink> } </td>
         </tr>
       )}
     </>

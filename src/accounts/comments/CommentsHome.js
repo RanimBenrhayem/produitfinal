@@ -823,20 +823,7 @@ const CommentsHome = () => {
                                   >
                                     <DeleteIcon style={{ color: "#026aa4" }} />
                                   </Button>
-                                  <Button
-                                    icon
-                                    //className={classes.Delete}
-                                    //onClick={
-                                    onClick={() => handleClickOpen(data._id)}
-                                  >
-                                    <BiEdit
-                                      style={{
-                                        color: "#026aa4",
-                                        marginLeft: -220,
-                                        fontSize: 24,
-                                      }}
-                                    />
-                                  </Button>
+                               
                                 </ListItem>
                               </Grid>
                             </Paper>
@@ -991,20 +978,7 @@ const CommentsHome = () => {
                                   >
                                     <DeleteIcon style={{ color: "#026aa4" }} />
                                   </Button>
-                                  <Button
-                                    icon
-                                    //className={classes.Delete}
-                                    //onClick={
-                                    onClick={() => handleClickOpen(data._id)}
-                                  >
-                                    <BiEdit
-                                      style={{
-                                        color: "#026aa4",
-                                        marginLeft: -220,
-                                        fontSize: 24,
-                                      }}
-                                    />
-                                  </Button>
+                                
                                 </ListItem>
                               </Grid>
                             </Paper>
@@ -1159,20 +1133,7 @@ const CommentsHome = () => {
                                   >
                                     <DeleteIcon style={{ color: "#026aa4" }} />
                                   </Button>
-                                  <Button
-                                    icon
-                                    //className={classes.Delete}
-                                    //onClick={
-                                    onClick={() => handleClickOpen(data._id)}
-                                  >
-                                    <BiEdit
-                                      style={{
-                                        color: "#026aa4",
-                                        marginLeft: -220,
-                                        fontSize: 24,
-                                      }}
-                                    />
-                                  </Button>
+                                  
                                 </ListItem>
                               </Grid>
                             </Paper>
@@ -1327,20 +1288,7 @@ const CommentsHome = () => {
                                   >
                                     <DeleteIcon style={{ color: "#026aa4" }} />
                                   </Button>
-                                  <Button
-                                    icon
-                                    //className={classes.Delete}
-                                    //onClick={
-                                    onClick={() => handleClickOpen(data._id)}
-                                  >
-                                    <BiEdit
-                                      style={{
-                                        color: "#026aa4",
-                                        marginLeft: -220,
-                                        fontSize: 24,
-                                      }}
-                                    />
-                                  </Button>
+                               
                                 </ListItem>
                               </Grid>
                             </Paper>
@@ -1495,20 +1443,7 @@ const CommentsHome = () => {
                                   >
                                     <DeleteIcon style={{ color: "#026aa4" }} />
                                   </Button>
-                                  <Button
-                                    icon
-                                    //className={classes.Delete}
-                                    //onClick={
-                                    onClick={() => handleClickOpen(data._id)}
-                                  >
-                                    <BiEdit
-                                      style={{
-                                        color: "#026aa4",
-                                        marginLeft: -220,
-                                        fontSize: 24,
-                                      }}
-                                    />
-                                  </Button>
+                           
                                 </ListItem>
                               </Grid>
                             </Paper>
@@ -1673,20 +1608,7 @@ const CommentsHome = () => {
                                 >
                                   <DeleteIcon style={{ color: "#026aa4" }} />
                                 </Button>
-                                <Button
-                                  icon
-                                  //className={classes.Delete}
-                                  //onClick={
-                                  onClick={() => handleClickOpen(data._id)}
-                                >
-                                  <BiEdit
-                                    style={{
-                                      color: "#026aa4",
-                                      marginLeft: -220,
-                                      fontSize: 24,
-                                    }}
-                                  />
-                                </Button>
+                              
                               </ListItem>
                             </Grid>
                           </Paper>

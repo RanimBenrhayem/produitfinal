@@ -1,8 +1,14 @@
 import * as React from "react";
 import {
+  List,
   TableCell,
   TableRow,
   TableBody,
+  ListItemText,
+  ListItem,
+  Container,
+  Pagination,
+  Divider,
   Tabs,
   Tab,
   Typography,
@@ -11,13 +17,28 @@ import {
   Table,
   TableHead,
   Paper,
+  TableFooter,
+  FormControlLabel,
   TextField,
+  Stack,
 } from "@mui/material";
+import {
+  AiFillEye,
+  AiFillEyeInvisible,
+  AiFillCloseCircle,
+} from "react-icons/ai";
+import Checkbox from "@material-ui/core/Checkbox";
+import Switch from "@material-ui/core/Switch";
+import { BsInfoLg } from "react-icons/bs";
 import { FcSearch } from "react-icons/fc";
+import { GoSettings } from "react-icons/go";
+
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import LayoutHome from "../layout/LayoutHome";
 import axios from "axios";
+import CloseIcon from "@mui/icons-material/Close";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { useNavigate } from "react-router-dom";
 import {useState} from "react";
 import Swal from "sweetalert2";
@@ -59,6 +80,8 @@ function paginator(items, current_page, per_page_items) {
     offset = (page - 1) * per_page,
     paginatedItems = items.slice(offset).slice(0, per_page_items),
     total_pages = Math.ceil(items.length / per_page);
+  //console.log(total_pages, items.length, per_page);
+
   return {
     page: page,
     per_page: per_page,
@@ -79,12 +102,14 @@ export default function WarningHome() {
     setValue(newValue);
   };
   const [searchInput, setSearchInput] = React.useState("");
+  const [alertsCollection, setAlertsCollection] = React.useState([]);
   const [usersCollection, setUsersCollection] = React.useState([]);
   const [filteredResults, setFilteredResults] = React.useState([]);
 
+  const [listUpdated, setLisUpdated] = React.useState(false);
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
-   
+    //console.log(searchValue);
     if (searchInput !== "") {
       const filteredData = usersCollection.filter((data, i) => {
         return Object.values(data, i)
@@ -141,6 +166,11 @@ export default function WarningHome() {
             setDeleted(!deleted)
 
           })
+        }else {
+          Toast.fire({
+            icon: "error",
+            title: "Could not delete this file.",
+          });
         }
       })
 
@@ -216,15 +246,12 @@ export default function WarningHome() {
           >
             <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
               <TableHead
-                style={{ backgroundColor: "#e53935", borderColor: "#e53935", height: 100 }}
+                style={{ backgroundColor: "#e53935", borderColor: "#e53935" }}
               >
                 <TableRow>
                   <TableCell
-                    style={{ fontWeight: "bold", color: "white", fontSize: 15}}
+                    style={{ fontWeight: "bold", color: "white", fontSize: 17 }}
                   >
-                   <br/> 
-                   <br/> 
-                   <br/> 
                     Alerts Details
                   </TableCell>
                 </TableRow>
@@ -298,10 +325,10 @@ export default function WarningHome() {
                                     {data.alert[0].attribute} {data.alert[0].operator} {data.alert[0].value}
                                   </TableCell>
                                   <TableCell component="th" scope="row">
-                                    <div onClick={()=>navigate(`/savedDashboard/${data._id}`)}>.....</div>
+                                    <div className="showeyes" onClick={()=>navigate(`/savedDashboard/${data._id}`)}>  <AiFillEye /></div>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
-                                    <div onClick={()=>handleDelete(data._id)}>delete</div>
+                                    <div className="buttonpoubelle" onClick={()=>handleDelete(data._id)}>    <AiFillCloseCircle /></div>
                                   </TableCell>
                                 </TableRow>
                               );
@@ -318,10 +345,10 @@ export default function WarningHome() {
                                       {data.alert[0].attribute} {data.alert[0].operator} {data.alert[0].value}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                      <div onClick={()=>navigate(`/savedDashboard/${data._id}`)}>view</div>
+                                      <div     className="showeyes" onClick={()=>navigate(`/savedDashboard/${data._id}`)}>  <AiFillEye /></div>
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                      <div onClick={()=>handleDelete(data._id)}>delete</div>
+                                      <div  className="buttonpoubelle" onClick={()=>handleDelete(data._id)}>    <AiFillCloseCircle /></div>
                                     </TableCell>
                                   </TableRow>
                                 );
@@ -332,12 +359,20 @@ export default function WarningHome() {
                   </TableContainer>
                 </TableBody>
                 <br />
-               
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Pagination
+                    count={paginator(usersCollection, page, 2).total_pages}
+                    page={paginator(usersCollection, page, 2).page}
+                    onChange={handleChange}
+                    color="info"
+                  />
+                </div>
               </TableBody>
               <br />
             </Table>
           </TableContainer>
         </TabPanel>
+        
         
       </Box>
     </div>
