@@ -51,7 +51,6 @@ export const UserSimpleFiles = () => {
       });
       setShowFile(response.data);
       csvFileToArray(response.data);
-      // fileReader.readAsText(response.data);
     } else {
       setShowFile("");
       setArray([]);

@@ -36,7 +36,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import SearchIcon from "@mui/icons-material/Search";
 import InfoIcon from "@mui/icons-material/Info";
-import { BiEdit } from "react-icons/bi";
+
 
 function paginator(items, current_page, per_page_items) {
   let page = current_page || 1,
@@ -160,7 +160,6 @@ const CommentsHome = () => {
   const [content, setContent] = React.useState("");
   const [userId, setUserId] = React.useState("");
   const [commentCollection, setCommentCollection] = React.useState([]);
-  const [open, setOpen] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [createdAt, setCreatedAt] = React.useState("");
   const [filteredResults, setFilteredResults] = React.useState([]);
@@ -261,8 +260,7 @@ const CommentsHome = () => {
           //donnees de la requete
           topic: topic,
           content: content,
-          userId: userId,
-          createdAt: createdAt,
+          
         },
       });
 
@@ -346,22 +344,8 @@ const CommentsHome = () => {
       }
     });
   };
-  const handleClickOpen = async (id) => {
-    try {
-      const response = await axios({
-        method: "get",
-        url: `http://localhost:8080/comments/getCommentById/${id}`,
-      });
-      const { _id, topic, content } = response.data;
-      setTopic(topic);
-      setContent(content);
-      setOpen2(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
  
-
+ 
   ////////////////////////////////////////////// 1 week filter ///////////////////////////////////////
   var seventhDay = new Date();
   seventhDay.setDate(seventhDay.getDate() - 7);
@@ -394,7 +378,7 @@ const CommentsHome = () => {
     return new Date(data.createdAt).getTime() >= lastDayIn15.getTime();
   });
 
-  ////////////////////////////////////////////// last day filter ///////////////////////////////////////
+  ////////////////////////////////////////////// today filter ///////////////////////////////////////
   var lastDay = new Date();
   lastDay.setDate(lastDay.getDate() - 2);
 

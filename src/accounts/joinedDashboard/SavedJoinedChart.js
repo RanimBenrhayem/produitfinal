@@ -2,8 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import LayoutHome from "../layout/LayoutHome";
-import { Bar, Bubble, Line ,Pie, Radar,Doughnut,Scatter, PolarArea} from 'react-chartjs-2';
-import {Paper} from "@material-ui/core";
+import { Bar, Bubble ,Pie, PolarArea} from 'react-chartjs-2';
 
 
 
@@ -94,28 +93,28 @@ const SavedJoinedChart = ()=>{
                                 <div  style={{height : '720px' , width : '750px',marginLeft : '-70px'}}>
 
                                     <Bar  ref={ref} options={options} data={graph} />
-                                    <button className="buttondownloadasimage"  onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage2"  onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
                             { chartType ==="polararea" && (
                                 <div style={{height : '520px' , width : '550px',marginLeft : '-70px'}}>
 
                                     {<PolarArea  ref={ref} options={options} data={graph} />}
-                                    <button className="buttondownloadasimage" onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage2" onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
                             { chartType ==="pie" && (
                                 <div style={{height : '520px' , width : '550px',marginLeft : '-70px'}}>
 
                                     {<Pie  ref={ref} options={options} data={graph} />}
-                                    <button className="buttondownloadasimage" onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage2" onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
                             { chartType ==="bubble" && (
                                 <div style={{height : '520px' , width : '550px',marginLeft : '-70px'}}>
 
                                     {<Bubble  ref={ref} options={options} data={graph} />}
-                                    <button className="buttondownloadasimage"  onClick={downloadImage}>download as image</button>
+                                    <button className="buttondownloadasimage2"  onClick={downloadImage}>download as image</button>
                                 </div>
                             )}
 

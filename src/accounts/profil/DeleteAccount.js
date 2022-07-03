@@ -1,61 +1,25 @@
 import * as React from "react";
 import {
-  List,
   TableCell,
   TableRow,
   TableBody,
-  ListItemText,
-  ListItem,
-  Container,
-  Pagination,
-  Divider,
-  Tabs,
-  Tab,
   Typography,
-  Box,
-  TableContainer,
   Table,
   TableHead,
   Paper,
-  TableFooter,
-  FormControlLabel,
   Button,
-  Stack,
 } from "@mui/material";
 
-
-
-
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import {FcLineChart,FcBarChart} from "react-icons/fc"
-import PieChartIcon from "@mui/icons-material/PieChart";
-import AddCommentIcon from "@mui/icons-material/AddComment";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import AddModeratorIcon from "@mui/icons-material/AddModerator";
-import { BsPersonLinesFill } from "react-icons/bs";
-import { VscFile, VscFiles, VscTasklist, VscChecklist } from "react-icons/vsc";
-import {TiDeleteOutline} from "react-icons/ti"
-import { FcComboChart } from "react-icons/fc";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import LockResetIcon from "@mui/icons-material/LockReset";
-import StackedLineChartIcon from "@mui/icons-material/StackedLineChart";
-import ShowChartIcon from "@mui/icons-material/ShowChart";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import axios from "axios";
 
 import LayoutHome from "../layout/LayoutHome";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
 
 export default function DeleteAccount() {
     const navigate = useNavigate();
-
-    const [id, setId] = React.useState("");
     const handleDeleteUser = () => {
         Swal.fire({
           title: "Do You Realy Want To Delete Your Account?",
@@ -70,10 +34,6 @@ export default function DeleteAccount() {
             axios
               .delete(`http://localhost:8080/user/deleteprofile`)
               .then((res) => {
-                console.log(res.data);
-                // setUsersCollection([res.data]);
-                //setLisUpdated(!listUpdated);
-                console.log("cbon");
                 navigate("/");
                 const Toast = Swal.mixin({
                   toast: true,
@@ -84,7 +44,7 @@ export default function DeleteAccount() {
     
                 Toast.fire({
                   icon: "success",
-                  title: "Your Account Has Been Deleted Successfully !",
+                  title: res.data,
                 });
               })
               .catch(function (error) {

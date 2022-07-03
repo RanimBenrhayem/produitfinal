@@ -12,6 +12,7 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
     const [val,setVal] = useState("")
     const [xAlertResult , setXAlertResult] = useState([])
     const [yAlertResult, setYAlertResult] = useState([])
+    const [isAlert,setIsAlert] = useState(true)
     const saveButtonText = saved.length>0? "save alert" :"save chart & alert"
 
 
@@ -59,6 +60,7 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
             alertResult.map((elt,index)=>{
                 swalText += ` ${choice}: ${elt} ${operator} ${val} for ${otherChoice}: ${resultLabels[index]} <br>`
             })
+            setIsAlert(true)
             Swal.fire({
                 title : 'Alert Box',
                 icon :"warning",
@@ -66,6 +68,15 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
                 html : `${swalText}`,
                 footer : `you can save chart and alert by clicking the button : "${saveButtonText}"`
 
+            })
+           
+        }
+        else{
+            setIsAlert(false)
+            Swal.fire({
+                title : "Don't worry",
+                icon :"success",
+                footer : "No threat have been detected"
             })
         }
 
@@ -79,26 +90,84 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
                     url : `/chart/alert/joined/add/${saved}`,
                     data : {value:val,operator,attribute:choice}
                 })
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-right",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
+            
+                  Toast.fire({
+                    icon: "success",
+                    title: response.data.msg,
+                  });
             }else {
-                const response = await axios({
+                    const response = await axios({
 
                     method :"post",
                     url : `http://localhost:8080/chart/save/database`,
                     data : {attribut1 ,  attribut2,fileId : `${fileId}` , typeOfDashboard , isJoined:true}
                 })
-                await axios({
+
+                const Toast2 = Swal.mixin({
+                    toast: true,
+                    position: "bottom-right",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
+            
+                  Toast2.fire({
+                    icon: "success",
+                    title: response.data.msg,
+                  });
+
+
+
+
+                  const res =    await axios({
                     method: "post",
                     url : `/chart/alert/joined/add/${response.data.result._id}`,
                     data : {value:val,operator,attribute:choice}
                 })
                 setSaved(response.data.result._id)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "bottom-right",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                  });
+            
+                  Toast.fire({
+                    icon: "success",
+                    title: res.data.msg,
+                  });
 
-            }
 
-        }catch (e) {
-            console.log(e)
         }
+        
+
+    }catch (e) {
+        console.log(e)
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "bottom-right",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+          });
+    
+          Toast.fire({
+            icon: "error",
+            title: e.response.data,
+          });
+
     }
+}
+
 
     return(
         <>
@@ -147,7 +216,8 @@ export default function JoinedChartAlert({attributes,labels,data,saved,setSaved,
                     
                     <input className="input2" name="value" type="text" value={val} onChange={(e)=>setVal(e.target.value)}/>
                     <button className="buttonalert2" onClick={handleConfirm}> confirm alert</button>
-                    <button className="savealerte2" onClick={handleSaveAlert}>{saveButtonText}</button>
+                    {isAlert && (   <button className="savealerte2" onClick={handleSaveAlert}>{saveButtonText}</button>
+                    )}
                 </>
             )}
 

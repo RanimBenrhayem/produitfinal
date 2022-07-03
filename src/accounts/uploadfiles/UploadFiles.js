@@ -25,7 +25,7 @@ function FileUploader() {
 
   //function CSVFileToArray
   const csvFileToArray = (string) => {
-    const csvHeader = string.slice(0, string.indexOf("\n")).split(","); //headers 
+    const csvHeader = string.slice(0, string.indexOf("\n")).split(","); //headers , csv header tableau
     const csvRows = string.slice(string.indexOf("\n") + 1).split("\n"); //values tout le reste
     const array = csvRows.map((i) => {
       const values = i.split(",");

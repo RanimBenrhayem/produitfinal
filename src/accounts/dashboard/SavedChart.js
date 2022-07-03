@@ -35,13 +35,12 @@ const SavedChart = ()=>{
                     url : `/chart/one/${id}`,
 
                 })
-                console.log(response.data)
+                
                 const {xaxis,yaxis,labels,returnedData} = response.data.data ;
                 setChartType(response.data.type)
-                console.log(response.data)
+                
                 const values = returnedData.map((element)=>parseFloat(element))
-                console.log(labels)
-                console.log(values)
+                
                 setGraph({
                     labels,
                     datasets: [

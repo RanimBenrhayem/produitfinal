@@ -37,8 +37,7 @@ export const Join = () => {
   const [file1ToJoin, setFile1ToJoin] = useState("");
   const [file2ToJoin, setFile2ToJoin] = useState("");
   const [joinFileName, setJoinFileName] = useState("");
-  const [joinedFiles, setJoinedFiles] = useState("");
-  const [isDeletedJoinFiles, setIsDeletedJoinFiles] = useState(false);
+
   const [joinedTab, setJoinedTab] = useState(true);
   const [isDeleted, setIsDeleted] = useState(false);
   const[button,setButton] = useState(false)
@@ -71,25 +70,7 @@ useEffect(() => {
 
 
   //useEffect pour joined files
-  useEffect(() => {
-    async function fetchUserJoinedFiles() {
-      const response = await getUserJoinedFiles(); //getuserJoinedFiles est definie dans axios.js
-      if (response.success === true) {
-        setJoinedFiles(response.data);
-        console.log(response.data);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: response.data,
-          showCancelButton: false,
-
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }
-    }
-    fetchUserJoinedFiles();
-  }, [isDeletedJoinFiles]);
+  
 
  
 
@@ -130,7 +111,7 @@ useEffect(() => {
     }
   }
   function ConvertToCSV(objArray) {
-    console.log(objArray)
+    
     var array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
     var str = "";
 
@@ -158,7 +139,8 @@ console.log(str)
     if (response.success === true) {
       if (response.data.joinedResult.length > 0 ) {
         const headerKeys2 = Object.keys(
-          Object.assign({}, ...response.data.joinedResult) //get keys
+          Object.assign({}, ...response.data.joinedResult), //get keys
+          console.log(response.data.joinedResult)
         );
         const transform = ConvertToCSV(response.data.joinedResult);
         setShowFile(response.data.joinedResult);
@@ -170,7 +152,7 @@ console.log(str)
               previousHeader + "," + currentHeader,
             ""
           ) + "\n";
-        csvFileToArray(headersString.substring(1) + transform); //fucntion accept only string
+        csvFileToArray(headersString.substring(1) + transform); //function accept only string
         setJoinedTab(false);
         setButton(true)
       } else {
@@ -310,7 +292,7 @@ console.log(str)
               </select>
               <select value={file2ToJoin} onChange={handleFile2Options}>
                 <option value={""}>__please choose a file__</option>
-                {files.map((element) => {
+                {files.filter((elt)=>elt._id !== file1ToJoin).map((element) => {
                   return (
                     <option value={element._id}>
                       {element.metadata.originalFileName}
@@ -397,7 +379,7 @@ console.log(str)
                         title: `${response.data} `,
                       });
 
-                      setIsDeletedJoinFiles(!isDeletedJoinFiles);
+                    
                       done(false);
                     });
                     done(false);

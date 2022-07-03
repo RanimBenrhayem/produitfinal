@@ -31,8 +31,11 @@ export default function RecomHome() {
 
 
         }
-        getAll()
-    }, [deleted])
+        getAll();
+        return () => {
+          setDashboardList([]); //pour re initaliser tableau 
+        };
+      }, [deleted]);
 
     const handleDelete= async (id)=>{
         try{

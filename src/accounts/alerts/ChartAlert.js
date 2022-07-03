@@ -11,6 +11,7 @@ export default function ChartAlert({attributes,labels,data,saved,setSaved,attrib
     const [val,setVal] = useState("")
     const [xAlertResult , setXAlertResult] = useState([])
     const [yAlertResult, setYAlertResult] = useState([])
+    const [isAlert,setIsAlert] = useState(true)
     const saveButtonText = saved.length>0? "save alert" :"save chart & alert"
 
 
@@ -60,6 +61,7 @@ const handleConfirm = ()=>{
         alertResult.map((elt,index)=>{
              swalText += ` ${choice}: ${elt} ${operator} ${val} for ${otherChoice}: ${resultLabels[index]} <br>` 
         })
+        setIsAlert(true)
         Swal.fire({
             title : 'Alert Box',
             icon :"warning",
@@ -69,6 +71,7 @@ const handleConfirm = ()=>{
 
         })
     } else{
+        setIsAlert(false)
         Swal.fire({
             title : "Don't worry",
             icon :"success",
@@ -98,7 +101,7 @@ const handleSaveAlert =async ()=> {
             
                   Toast.fire({
                     icon: "success",
-                    title: 'Saved',
+                    title: response.data.msg,
                   });
             }else {
                 const response = await axios({
@@ -123,7 +126,7 @@ const handleSaveAlert =async ()=> {
                         icon: "success",
                         title: response.data.msg,
                       });
-                await axios({
+                const res =   await axios({
                     method: "post",
                     url : `/chart/alert/simple/add/${response.data.result._id}`,
                     data : {value:val,operator,attribute:choice}
@@ -139,7 +142,7 @@ const handleSaveAlert =async ()=> {
                 
                       Toast.fire({
                         icon: "success",
-                        title: 'Saved',
+                        title: res.data.msg,
                       });
 
 
@@ -200,8 +203,8 @@ const handleSaveAlert =async ()=> {
                 >
                 <option value={""}>please select an operator_</option>
                     <option value={"="}>=</option>
-                    <option value={">"}> > </option>
-                    <option value={">="}> >=</option>
+                    <option value={">"}> {">"} </option>
+                    <option value={">="}> {">="}</option>
                     <option value={"<"}> {"<"}  </option>
                     <option value={"<="}>{"<="}</option>
 
@@ -211,7 +214,9 @@ const handleSaveAlert =async ()=> {
                    
                     <input className='input' className="input" name="value" type="text" value={val} onChange={(e)=>setVal(e.target.value)}/>
                     <button  className="buttonalert" onClick={handleConfirm}> confirm alert</button>
+                 {isAlert && (
                     <button className="savealerte" onClick={handleSaveAlert}>{saveButtonText}</button>
+                 )}   
                 </div>
             )}
 

@@ -32,6 +32,7 @@ function SignUp({setWelcome}) {
           phoneNumber: phoneNumber,
           email: email,
           password: password,
+          
         },
       });
       const Toast = Swal.mixin({
@@ -143,6 +144,7 @@ function SignUp({setWelcome}) {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
+           
             <Grid item sm={5}>
               <Button
                 type="submit"

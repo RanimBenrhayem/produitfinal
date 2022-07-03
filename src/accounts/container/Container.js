@@ -11,6 +11,7 @@ function Container() {
     <div className="container1">
       <img src="Logo.png " className="logo" alt="" />
       <button className="buttonsignup1" onClick={() => setWelcome(!welcome)}>
+      
         {welcome ? (
           "New to us? Sing Up"
         ) : (

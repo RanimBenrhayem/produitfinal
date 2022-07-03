@@ -49,7 +49,7 @@ export const JoinedFilesToUpload = () => {
         method: "get",
         url: `http://localhost:8080/uploads/files/joined/getbyid/${id}`,
       });
-      console.log(JSON.stringify(response.data[0]));
+     
       setShowFile(JSON.stringify(response.data[0]));
       const headerKeys2 = Object.keys(Object.assign({}, ...response.data));
       const transform = ConvertToCSV(response.data);

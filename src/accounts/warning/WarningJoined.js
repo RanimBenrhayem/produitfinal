@@ -325,7 +325,7 @@ export default function WarningJoined() {
                                                                     {data.alert[0].attribute} {data.alert[0].operator} {data.alert[0].value}
                                                                 </TableCell>
                                                                 <TableCell component="th" scope="row">
-                                    <div className="showeyes" onClick={()=>navigate(`/savedDashboard/${data._id}`)}>  <AiFillEye /></div>
+                                    <div className="showeyes" onClick={()=>navigate(`/savedJoinedDashboard/${data._id}`)}>  <AiFillEye /></div>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
                                     <div className="buttonpoubelle" onClick={()=>handleDelete(data._id)}>    <AiFillCloseCircle /></div>
@@ -345,28 +345,36 @@ export default function WarningJoined() {
                                                                         {data.alert[0].attribute} {data.alert[0].operator} {data.alert[0].value}
                                                                     </TableCell>
                                                                     <TableCell component="th" scope="row">
-                                    <div className="showeyes" onClick={()=>navigate(`/savedDashboard/${data._id}`)}>  <AiFillEye /></div>
+                                    <div className="showeyes" onClick={()=>navigate(`/savedJoinedDashboard/${data._id}`)}>  <AiFillEye /></div>
                                   </TableCell>
                                   <TableCell component="th" scope="row">
                                     <div className="buttonpoubelle" onClick={()=>handleDelete(data._id)}>    <AiFillCloseCircle /></div>
                                   </TableCell>
                                                                 </TableRow>
-                                                            );
+                                                         );
                                                         }
-                                                    )}
-                                            </TableBody>
-                                        </Table>
+                                                      )}
+                                                </TableBody>
+                                              </Table>
+                                            </TableContainer>
+                                          </TableBody>
+                                          <br />
+                                          <div style={{ display: "flex", justifyContent: "center" }}>
+                                            <Pagination
+                                              count={paginator(usersCollection, page, 2).total_pages}
+                                              page={paginator(usersCollection, page, 2).page}
+                                              onChange={handleChange}
+                                              color="info"
+                                            />
+                                          </div>
+                                        </TableBody>
+                                        <br />
+                                      </Table>
                                     </TableContainer>
-                                </TableBody>
-                                <br />
-                               
-                            </TableBody>
-                            <br />
-                        </Table>
-                    </TableContainer>
-                </TabPanel>
-              
-            </Box>
-        </div>
-    );
-}
+                                  </TabPanel>
+                                  
+                                  
+                                </Box>
+                              </div>
+                            );
+                          }

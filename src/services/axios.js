@@ -205,7 +205,7 @@ export const deleteJoinedFiles = async (id,userId)=>{
         try {
             const response =   await axios({
                 method: "get",
-                url :`uploads/files/joined/getall/${userId}`,
+                url :`uploads/files/joined/getall/`,
             })
             return ({success : true,
                 data : response.data,

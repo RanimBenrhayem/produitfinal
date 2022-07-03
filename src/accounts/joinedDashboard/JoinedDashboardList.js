@@ -31,8 +31,13 @@ export default function JoinedDashboardList() {
 
 
         }
-        getAll()
-    }, [deleted])
+        getAll();
+        return () => {
+          setDashboardList([]); //pour re initaliser tableau 
+        };
+      }, [deleted]);
+
+      
     const handleDelete= async (id)=>{
         try{
             Swal.fire({

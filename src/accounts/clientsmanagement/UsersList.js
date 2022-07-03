@@ -131,6 +131,7 @@ export default function UsersList() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchInput, setSearchInput] = React.useState("");
   const [filteredResults, setFilteredResults] = React.useState([]);
+ 
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -200,6 +201,7 @@ export default function UsersList() {
           lastName,
           email,
           phoneNumber,
+        
         },
       });
       setSearchInput('')
@@ -298,7 +300,7 @@ export default function UsersList() {
         method: "get",
         url: `http://localhost:8080/user/userById/${userId}`,
       });
-      const { _id, firstName, lastName, email, phoneNumber, password } =
+      const { _id, firstName, lastName, email, phoneNumber, password  } =
         response.data;
       setId(_id);
       setFirstName(firstName);
@@ -306,6 +308,7 @@ export default function UsersList() {
       setPhoneNumber(phoneNumber);
       setEmail(email);
       setPassword(password);
+     
       setOpen(true);
     } catch (error) {
       console.log(error);
@@ -458,6 +461,7 @@ export default function UsersList() {
                   <TableCell style={{ fontWeight: "bold", color: "#026aa4" }}>
                     Role
                   </TableCell>
+                 
                   <TableCell
                     align="center"
                     style={{ fontWeight: "bold", color: "#026aa4" }}
@@ -489,6 +493,7 @@ export default function UsersList() {
                           <TableCell component="th" scope="row">
                             {data.roleId.name}
                           </TableCell>
+                          
                          {/*
                          les 3 boutons de l'action
                          */}
@@ -571,6 +576,7 @@ export default function UsersList() {
                                           }
                                         />
                                       </Grid>
+                                     
 
                                       <Grid item sm={5}>
                                         <Button
@@ -696,6 +702,7 @@ export default function UsersList() {
                           <TableCell component="th" scope="row">
                             {data.roleId.name}
                           </TableCell>
+                        
 
                           <TableCell>
                             <ButtonGroup
@@ -775,7 +782,7 @@ export default function UsersList() {
                                           }
                                         />
                                       </Grid>
-
+                                    
                                       <Grid item sm={5}>
                                         <Button
                                           type="submit"

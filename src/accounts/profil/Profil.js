@@ -41,10 +41,13 @@ export default function Profil() {
       setLastName(lastName);
       setPhoneNumber(phoneNumber);
       setEmail(email);
+      
     } catch (error) {
       console.log(error);
     }
   };
+
+  
   const handleUpdateUser = async (e) => {
     e.preventDefault();
     try {

@@ -31,7 +31,7 @@ import WarningJoined from "./accounts/warning/WarningJoined";
 import Profil from "./accounts/profil/Profil";
 
 function App() {
-  const {token} = useAuthContext()
+  const {token} = useAuthContext() 
   return (
     <div className="App">
       <Router>

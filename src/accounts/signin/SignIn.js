@@ -32,7 +32,7 @@ function SignIn() {
           password: password,
         },
       });
-      loggingIn(response.data.token , response.data.role)
+      loggingIn(response.data.token , response.data.role) //fonction qui va enregistrer le token dans localstorage
       axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}` ; //token envoyé avec chaque requete à travers un header authorization
       if(response.data.role ==="client") {
         navigate("/csvUploader");
